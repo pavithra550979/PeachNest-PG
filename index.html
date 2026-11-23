@@ -1,0 +1,2890 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PeachNest PG | Smart PG & Luxury Hostel Management</title>
+
+  <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons via CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind Custom Design Tokens -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            peach: {
+              primary: '#FFCBA4',
+              secondary: '#FFF4EA',
+              accent: '#FF9B85',
+              bg: '#FFFCF8',
+              dark: '#49352E',
+              muted: '#7A635B',
+              border: '#F3DFD1'
+            }
+          },
+          fontFamily: {
+            heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+            sans: ['"Inter"', 'sans-serif']
+          },
+          boxShadow: {
+            'warm': '0 12px 32px -6px rgba(73, 53, 46, 0.08)',
+            'warm-lg': '0 20px 44px -10px rgba(73, 53, 46, 0.14)',
+            'peach-glow': '0 10px 25px -5px rgba(255, 155, 133, 0.45)'
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #FFFCF8;
+      color: #49352E;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .glass-nav {
+      background: rgba(255, 252, 248, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+    .card-hover {
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -12px rgba(73, 53, 46, 0.12);
+      border-color: #FFCBA4;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #FFF4EA;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #FFCBA4;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #FF9B85;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-peach-primary selection:text-peach-dark">
+
+  <!-- ===================================================================== -->
+  <!-- TOP STICKY NAVIGATION BAR                                             -->
+  <!-- ===================================================================== -->
+  <header class="sticky top-0 z-40 glass-nav border-b border-peach-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Brand Logo -->
+        <button onclick="switchView('public', 'home')" class="flex items-center gap-3 text-left group focus:outline-none">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-peach-primary to-peach-accent flex items-center justify-center shadow-peach-glow group-hover:scale-105 transition-transform">
+            <!-- Custom PeachNest SVG Icon -->
+            <svg class="w-6 h-6 text-peach-dark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 10.5L12 3l9 7.5" />
+              <path d="M5 9.5V19a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9.5" />
+              <path d="M12 17c-2.5 0-4.5-1.8-4.5-4 0-1.9 1.6-3.5 3.6-3.5.5 0 .9.2.9.5s.4-.5.9-.5c2 0 3.6 1.6 3.6 3.5 0 2.2-2 4-4.5 4z" fill="#FF9B85" fill-opacity="0.35"/>
+            </svg>
+          </div>
+          <div>
+            <span class="font-heading font-extrabold text-xl tracking-tight text-peach-dark block leading-none">PeachNest <span class="text-peach-accent">PG</span></span>
+            <span class="text-[11px] font-medium text-peach-muted tracking-wider uppercase">Smart Co-Living & Hostel</span>
+          </div>
+        </button>
+
+        <!-- Desktop Navigation Links -->
+        <nav id="public-nav-links" class="hidden lg:flex items-center gap-6 text-sm font-medium text-peach-dark">
+          <button onclick="switchView('public', 'home')" class="hover:text-peach-accent transition-colors">Home</button>
+          <button onclick="switchView('public', 'rooms')" class="hover:text-peach-accent transition-colors">Rooms</button>
+          <button onclick="switchView('public', 'facilities')" class="hover:text-peach-accent transition-colors">Facilities</button>
+          <button onclick="switchView('public', 'food')" class="hover:text-peach-accent transition-colors">Food Menu</button>
+          <button onclick="switchView('public', 'rules')" class="hover:text-peach-accent transition-colors">Rules</button>
+          <button onclick="switchView('public', 'complaints')" class="hover:text-peach-accent transition-colors">Complaints</button>
+          <button onclick="switchView('public', 'contact')" class="hover:text-peach-accent transition-colors">Contact</button>
+        </nav>
+
+        <!-- Right Controls: SOS, Portal Switcher, Login -->
+        <div class="flex items-center gap-2.5 sm:gap-3">
+          <!-- Emergency SOS Trigger -->
+          <button onclick="openSOSModal()" title="Emergency Warden SOS" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 border border-red-200 text-xs font-bold transition-all">
+            <span class="w-2 h-2 rounded-full bg-red-600 animate-ping"></span>
+            <i data-lucide="shield-alert" class="w-4 h-4"></i>
+            <span class="hidden sm:inline">SOS</span>
+          </button>
+
+          <!-- Active Portal Pill / Login Button -->
+          <div id="auth-header-controls" class="flex items-center gap-2">
+            <button onclick="openAuthModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-peach-dark text-peach-bg hover:bg-opacity-90 text-sm font-semibold shadow-warm transition-all">
+              <i data-lucide="user-circle-2" class="w-4 h-4 text-peach-primary"></i>
+              <span>Portal Login</span>
+            </button>
+          </div>
+
+          <!-- Mobile Hamburger -->
+          <button onclick="toggleMobileMenu()" class="lg:hidden p-2.5 rounded-xl bg-peach-secondary text-peach-dark hover:bg-peach-primary/40 transition-colors" aria-label="Toggle Menu">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-peach-bg border-t border-peach-border px-4 pt-3 pb-5 space-y-2 shadow-warm-lg">
+      <div class="grid grid-cols-2 gap-2 text-sm font-medium">
+        <button onclick="switchView('public', 'home'); toggleMobileMenu()" class="p-2.5 rounded-xl hover:bg-peach-secondary text-left">Home</button>
+        <button onclick="switchView('public', 'rooms'); toggleMobileMenu()" class="p-2.5 rounded-xl hover:bg-peach-secondary text-left">Rooms & Booking</button>
+        <button onclick="switchView('public', 'facilities'); toggleMobileMenu()" class="p-2.5 rounded-xl hover:bg-peach-secondary text-left">Facilities</button>
+        <button onclick="switchView('public', 'food'); toggleMobileMenu()" class="p-2.5 rounded-xl hover:bg-peach-secondary text-left">Food Menu</button>
+        <button onclick="switchView('public', 'rules'); toggleMobileMenu()" class="p-2.5 rounded-xl hover:bg-peach-secondary text-left">Rules</button>
+        <button onclick="switchView('public', 'complaints'); toggleMobileMenu()" class="p-2.5 rounded-xl hover:bg-peach-secondary text-left">Complaints</button>
+        <button onclick="switchView('public', 'contact'); toggleMobileMenu()" class="p-2.5 rounded-xl hover:bg-peach-secondary text-left">Contact Us</button>
+        <button onclick="openBookingTrackerModal(); toggleMobileMenu()" class="p-2.5 rounded-xl bg-peach-secondary text-peach-dark font-semibold text-left">Track Booking</button>
+      </div>
+      <div class="pt-2 border-t border-peach-border flex flex-wrap gap-2">
+        <button onclick="quickDemoLogin('resident'); toggleMobileMenu()" class="flex-1 py-2 px-3 rounded-xl bg-peach-primary/40 text-xs font-bold text-peach-dark">Resident Portal</button>
+        <button onclick="quickDemoLogin('parent'); toggleMobileMenu()" class="flex-1 py-2 px-3 rounded-xl bg-peach-primary/40 text-xs font-bold text-peach-dark">Parent Portal</button>
+        <button onclick="quickDemoLogin('admin'); toggleMobileMenu()" class="flex-1 py-2 px-3 rounded-xl bg-peach-dark text-xs font-bold text-white">Admin Portal</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Quick Role Switcher Banner (Always accessible for seamless exploration) -->
+  <div class="bg-peach-secondary border-b border-peach-border py-2 px-4">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs">
+      <div class="flex items-center gap-2 text-peach-dark font-medium">
+        <span class="px-2 py-0.5 rounded-full bg-peach-primary text-peach-dark font-bold">Live Sync</span>
+        <span>Switch views anytime to test real-time updates across portals:</span>
+      </div>
+      <div class="flex flex-wrap items-center gap-1.5">
+        <button onclick="switchView('public', 'home')" id="pill-public" class="portal-pill px-3 py-1 rounded-full font-semibold transition-all bg-peach-dark text-white">Public Site</button>
+        <button onclick="quickDemoLogin('resident')" id="pill-resident" class="portal-pill px-3 py-1 rounded-full font-semibold transition-all bg-white text-peach-dark border border-peach-border hover:bg-peach-primary/40">Resident Dashboard</button>
+        <button onclick="quickDemoLogin('parent')" id="pill-parent" class="portal-pill px-3 py-1 rounded-full font-semibold transition-all bg-white text-peach-dark border border-peach-border hover:bg-peach-primary/40">Parent Connect</button>
+        <button onclick="quickDemoLogin('admin')" id="pill-admin" class="portal-pill px-3 py-1 rounded-full font-semibold transition-all bg-white text-peach-dark border border-peach-border hover:bg-peach-primary/40">Hostel Admin</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 1: PUBLIC WEBSITE (HOME, ROOMS, FACILITIES, FOOD, RULES, ETC.)   -->
+  <!-- ===================================================================== -->
+  <main id="view-public" class="block">
+
+    <!-- 1. HERO SECTION -->
+    <section id="home" class="relative overflow-hidden">
+      <div class="relative min-h-[620px] lg:min-h-[680px] flex items-center">
+        <!-- Hero Background Image with Fallback -->
+        <img
+          src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1920&q=80"
+          onerror="this.src='https://placehold.co/1920x900/FFF4EA/49352E?text=PeachNest+Luxury+PG+Living'"
+          alt="Luxury PeachNest PG Suite"
+          class="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        <!-- Warm Cream & Dark Brown Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-r from-[#2D1F1A]/90 via-[#49352E]/75 to-[#49352E]/35"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 w-full">
+          <div class="max-w-2xl space-y-6">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-peach-secondary/95 text-peach-dark text-xs font-bold tracking-wide shadow-warm">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-peach-accent"></i>
+              <span>RATED #1 SMART STUDENT & PROFESSIONAL PG</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.12] tracking-tight">
+              Find Your Perfect <span class="text-peach-primary">Home Away</span> From Home.
+            </h1>
+
+            <p class="text-base sm:text-lg text-peach-secondary/90 leading-relaxed max-w-xl">
+              Experience serene, sunlit living spaces with hotel-grade housekeeping, wholesome home-style meals, 24/7 biometric security, and smart resident tools designed for students and working professionals.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <button onclick="scrollToSection('rooms')" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-peach-primary to-peach-accent text-peach-dark font-bold text-sm sm:text-base shadow-peach-glow hover:scale-[1.02] transition-all inline-flex items-center gap-2">
+                <span>Explore Rooms</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              </button>
+              <button onclick="openBookingModal()" class="px-7 py-4 rounded-2xl bg-white/15 hover:bg-white/25 backdrop-blur-md text-white border border-white/30 font-semibold text-sm sm:text-base transition-all inline-flex items-center gap-2">
+                <i data-lucide="calendar-check" class="w-4 h-4 text-peach-primary"></i>
+                <span>Book Your Stay</span>
+              </button>
+              <button onclick="openBookingTrackerModal()" class="px-5 py-4 rounded-2xl bg-peach-dark/80 hover:bg-peach-dark text-peach-primary border border-peach-primary/30 font-semibold text-sm transition-all inline-flex items-center gap-2">
+                <i data-lucide="search-check" class="w-4 h-4"></i>
+                <span>Track Booking</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Hero Search & Filter Bar -->
+          <div class="mt-12 bg-peach-bg/95 backdrop-blur-xl rounded-3xl p-4 sm:p-6 shadow-warm-lg border border-peach-border">
+            <form id="hero-search-form" onsubmit="handleHeroSearch(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-peach-muted mb-1.5">Location</label>
+                <div class="relative">
+                  <select id="hero-location" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-3 text-sm font-medium text-peach-dark focus:outline-none focus:ring-2 focus:ring-peach-accent">
+                    <option value="all">All Prime Locations</option>
+                    <option value="Madhapur">Madhapur, HITEC City</option>
+                    <option value="Gachibowli">Gachibowli Financial Dist.</option>
+                    <option value="Koramangala">Koramangala 4th Block</option>
+                    <option value="HSR Layout">HSR Layout Sector 2</option>
+                    <option value="Indiranagar">Indiranagar 100ft Rd</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-peach-muted mb-1.5">Max Monthly Budget</label>
+                <select id="hero-budget" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-3 text-sm font-medium text-peach-dark focus:outline-none focus:ring-2 focus:ring-peach-accent">
+                  <option value="50000">Any Budget</option>
+                  <option value="9000">Up to ₹9,000 / mo</option>
+                  <option value="13000">Up to ₹13,000 / mo</option>
+                  <option value="18000">Up to ₹18,000 / mo</option>
+                  <option value="25000">Up to ₹25,000 / mo</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-peach-muted mb-1.5">Room Category</label>
+                <select id="hero-type" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-3 text-sm font-medium text-peach-dark focus:outline-none focus:ring-2 focus:ring-peach-accent">
+                  <option value="all">All Room Types</option>
+                  <option value="Single Sharing">Single Sharing Room</option>
+                  <option value="Double Sharing">Double Sharing Room</option>
+                  <option value="Triple Sharing">Triple Sharing Room</option>
+                  <option value="Premium AC">Premium AC Room</option>
+                  <option value="Non-AC">Non-AC Room</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-peach-muted mb-1.5">Availability</label>
+                <select id="hero-avail" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-3 text-sm font-medium text-peach-dark focus:outline-none focus:ring-2 focus:ring-peach-accent">
+                  <option value="available">Available Beds Only</option>
+                  <option value="all">Show All Rooms</option>
+                </select>
+              </div>
+
+              <button type="submit" class="w-full py-3.5 px-6 rounded-xl bg-peach-dark hover:bg-peach-accent hover:text-peach-dark text-white font-bold text-sm transition-all shadow-warm flex items-center justify-center gap-2">
+                <i data-lucide="search" class="w-4 h-4"></i>
+                <span>Find Rooms</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Stats Strip -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white rounded-2xl p-5 border border-peach-border shadow-warm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-peach-secondary flex items-center justify-center text-peach-accent shrink-0">
+              <i data-lucide="bed-double" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div id="stat-available-beds" class="text-2xl sm:text-3xl font-extrabold text-peach-dark">14</div>
+              <div class="text-xs font-medium text-peach-muted">Live Available Beds</div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 border border-peach-border shadow-warm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-peach-secondary flex items-center justify-center text-peach-accent shrink-0">
+              <i data-lucide="users" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-peach-dark">480+</div>
+              <div class="text-xs font-medium text-peach-muted">Happy Residents</div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 border border-peach-border shadow-warm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-peach-secondary flex items-center justify-center text-peach-accent shrink-0">
+              <i data-lucide="sparkles" class="w-6 h-6"></i>
+            </div>
+            <div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-peach-dark">12+</div>
+              <div class="text-xs font-medium text-peach-muted">Premium Facilities</div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-5 border border-peach-border shadow-warm flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-peach-secondary flex items-center justify-center text-peach-accent shrink-0">
+              <i data-lucide="star" class="w-6 h-6 fill-peach-accent"></i>
+            </div>
+            <div>
+              <div class="text-2xl sm:text-3xl font-extrabold text-peach-dark">4.9 / 5</div>
+              <div class="text-xs font-medium text-peach-muted">Resident & Parent Rating</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. ROOM AVAILABILITY & SMART BED TRACKER -->
+    <section id="rooms" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div>
+          <span class="inline-block px-3.5 py-1 rounded-full bg-peach-secondary text-peach-accent text-xs font-bold uppercase tracking-wider mb-3">Smart Bed Availability Tracker</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-peach-dark tracking-tight">Curated Rooms for Every Lifestyle</h2>
+          <p class="text-peach-muted mt-2 max-w-2xl">Real-time bed availability synced directly with our resident registry. Click <strong class="text-peach-dark">View Details</strong> to inspect the live interactive bed map of any room.</p>
+        </div>
+
+        <button onclick="openBookingTrackerModal()" class="self-start md:self-auto px-5 py-3 rounded-2xl bg-peach-secondary hover:bg-peach-primary/50 text-peach-dark font-bold text-sm border border-peach-border transition-all inline-flex items-center gap-2">
+          <i data-lucide="clipboard-list" class="w-4 h-4 text-peach-accent"></i>
+          <span>Booking Status Dashboard (<span id="booking-count-badge">0</span>)</span>
+        </button>
+      </div>
+
+      <!-- Comprehensive Room Filters Bar -->
+      <div class="bg-peach-secondary/80 rounded-3xl p-5 mb-10 border border-peach-border">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-center">
+          <div>
+            <label class="block text-xs font-bold text-peach-dark mb-1">Room Category</label>
+            <select id="filter-room-type" onchange="renderRooms()" class="w-full rounded-xl bg-white border border-peach-border px-3 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-peach-accent">
+              <option value="all">All Categories</option>
+              <option value="Single Sharing">Single Sharing Room</option>
+              <option value="Double Sharing">Double Sharing Room</option>
+              <option value="Triple Sharing">Triple Sharing Room</option>
+              <option value="Premium AC">Premium AC Room</option>
+              <option value="Non-AC">Non-AC Room</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-peach-dark mb-1">Gender Preference</label>
+            <select id="filter-gender" onchange="renderRooms()" class="w-full rounded-xl bg-white border border-peach-border px-3 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-peach-accent">
+              <option value="all">All (Boys / Girls / Co-Living)</option>
+              <option value="Girls">Girls Wing</option>
+              <option value="Boys">Boys Wing</option>
+              <option value="Co-Living">Co-Living Wing</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-peach-dark mb-1">Climate Control</label>
+            <select id="filter-ac" onchange="renderRooms()" class="w-full rounded-xl bg-white border border-peach-border px-3 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-peach-accent">
+              <option value="all">AC & Non-AC</option>
+              <option value="AC">AC Rooms Only</option>
+              <option value="Non-AC">Non-AC Rooms Only</option>
+            </select>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-bold text-peach-dark mb-1">
+              <span>Max Rent</span>
+              <span id="filter-rent-label" class="text-peach-accent">₹25,000/mo</span>
+            </div>
+            <input id="filter-rent" type="range" min="7000" max="25000" step="500" value="25000" oninput="document.getElementById('filter-rent-label').textContent = '₹' + Number(this.value).toLocaleString('en-IN') + '/mo'; renderRooms()" class="w-full accent-[#FF9B85] cursor-pointer" />
+          </div>
+
+          <div class="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-4">
+            <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+              <input id="filter-available-only" type="checkbox" onchange="renderRooms()" class="w-4 h-4 rounded accent-[#FF9B85]" />
+              <span class="text-xs font-bold text-peach-dark">Available Only</span>
+            </label>
+            <button onclick="resetRoomFilters()" class="text-xs font-bold text-peach-accent hover:underline">Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dynamic Room Cards Grid -->
+      <div id="rooms-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </section>
+
+    <!-- 3. PREMIUM ROOM FACILITIES (12 CARDS) -->
+    <section id="facilities" class="py-20 bg-peach-secondary/60 border-y border-peach-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-white text-peach-accent text-xs font-bold uppercase tracking-wider mb-3 border border-peach-border">All-Inclusive Living</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-peach-dark tracking-tight">12 Thoughtful Facilities Included</h2>
+          <p class="text-peach-muted mt-3">Everything you need to focus on your studies or career while we take care of daily comfort, hygiene, and safety.</p>
+        </div>
+
+        <div id="facilities-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. FOOD & WEEKLY DAILY MENU -->
+    <section id="food" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+        <div>
+          <span class="inline-block px-3.5 py-1 rounded-full bg-peach-secondary text-peach-accent text-xs font-bold uppercase tracking-wider mb-3">Chef-Crafted Homely Meals</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-peach-dark tracking-tight">Wholesome Daily Food Menu</h2>
+          <p class="text-peach-muted mt-2 max-w-2xl">Hygienic kitchen, RO-water cooking, separate Veg & Non-Veg counters, and festive weekend feasts.</p>
+        </div>
+
+        <!-- Monthly Food Subscription Pill -->
+        <div class="bg-gradient-to-r from-peach-secondary to-peach-primary/40 border border-peach-primary rounded-2xl p-4 flex items-center gap-4 shadow-warm">
+          <div class="w-11 h-11 rounded-xl bg-white flex items-center justify-center text-peach-accent shrink-0">
+            <i data-lucide="utensils-crossed" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold uppercase text-peach-muted">Monthly Meal Plan</div>
+            <div class="text-base font-extrabold text-peach-dark">₹3,500 / month <span class="text-xs font-normal text-peach-muted">(4 Meals/Day)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Special Weekend Menu Banner -->
+      <div class="mb-8 rounded-3xl bg-gradient-to-r from-[#49352E] to-[#6B4E44] p-6 sm:p-8 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-warm-lg">
+        <div class="space-y-2">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-peach-accent text-peach-dark text-xs font-extrabold">
+            <i data-lucide="flame" class="w-3.5 h-3.5"></i>
+            <span>SPECIAL WEEKEND FEAST</span>
+          </div>
+          <h3 class="text-xl sm:text-2xl font-bold">Sunday Hyderabadi Dum Biryani & Artisanal Dessert Night</h3>
+          <p class="text-sm text-peach-secondary/85">Includes Paneer Tikka Dum Biryani (Veg), Chicken Dum Biryani (Non-Veg), Mirchi Ka Salan, Burani Raita & Gulab Jamun.</p>
+        </div>
+        <button onclick="selectFoodDay('Sunday')" class="px-5 py-3 rounded-2xl bg-peach-primary text-peach-dark font-bold text-sm hover:bg-white transition-all shrink-0">
+          View Sunday Menu
+        </button>
+      </div>
+
+      <!-- Day Selector Tabs (Monday to Sunday) -->
+      <div id="food-day-tabs" class="flex items-center gap-2 overflow-x-auto pb-3 mb-8">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- 4 Meals Cards Grid -->
+      <div id="food-meals-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Live Food Feedback & Rating Widget -->
+      <div class="bg-peach-secondary rounded-3xl p-6 sm:p-8 border border-peach-border grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div class="lg:col-span-5 space-y-3">
+          <span class="px-3 py-1 rounded-full bg-white text-peach-accent text-xs font-bold">Resident Dining Pulse</span>
+          <h3 class="text-2xl font-extrabold text-peach-dark">Rate Today's Meals</h3>
+          <p class="text-sm text-peach-muted">Your feedback goes directly to our head chef and hostel kitchen committee to improve taste and nutrition every week.</p>
+          <div class="flex items-center gap-4 pt-2">
+            <div class="text-3xl font-extrabold text-peach-dark" id="avg-food-rating">4.8</div>
+            <div>
+              <div class="flex text-peach-accent">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+              <div class="text-xs text-peach-muted" id="food-rating-count">Based on 128 resident reviews</div>
+            </div>
+          </div>
+        </div>
+
+        <form onsubmit="submitFoodFeedback(event)" class="lg:col-span-7 bg-white rounded-2xl p-5 sm:p-6 border border-peach-border shadow-warm space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-peach-dark mb-1">Meal Type</label>
+              <select id="fb-meal" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3 py-2 text-sm">
+                <option value="Breakfast">Breakfast</option>
+                <option value="Lunch">Lunch</option>
+                <option value="Evening Snacks">Evening Snacks</option>
+                <option value="Dinner">Dinner</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-peach-dark mb-1">Rating (1–5)</label>
+              <select id="fb-stars" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3 py-2 text-sm">
+                <option value="5">★★★★★ (5 - Excellent)</option>
+                <option value="4">★★★★☆ (4 - Very Good)</option>
+                <option value="3">★★★☆☆ (3 - Average)</option>
+                <option value="2">★★☆☆☆ (2 - Needs Improvement)</option>
+                <option value="1">★☆☆☆☆ (1 - Poor)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-peach-dark mb-1">Your Name / Room</label>
+              <input id="fb-author" type="text" required placeholder="e.g., Ananya (R-204)" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3 py-2 text-sm" />
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-3">
+            <input id="fb-comment" type="text" required placeholder="Share feedback on taste, hygiene, or menu requests..." class="flex-1 rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-2.5 text-sm" />
+            <button type="submit" class="px-6 py-2.5 rounded-xl bg-peach-dark hover:bg-peach-accent hover:text-peach-dark text-white font-bold text-sm transition-all shrink-0">
+              Submit Rating
+            </button>
+          </div>
+          <div id="recent-food-reviews" class="pt-2 border-t border-peach-border flex flex-wrap gap-2">
+            <!-- Populated by JS -->
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 5. HOSTEL RULES & REGULATIONS -->
+    <section id="rules" class="py-20 bg-peach-secondary/60 border-y border-peach-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-white text-peach-accent text-xs font-bold uppercase tracking-wider mb-3 border border-peach-border">Community Harmony</span>
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-peach-dark tracking-tight">Hostel Rules & Safety Guidelines</h2>
+          <p class="text-peach-muted mt-3">Clear, transparent policies designed to protect resident safety, peaceful study hours, and hygiene.</p>
+        </div>
+
+        <div id="rules-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. PUBLIC COMPLAINT & SUPPORT SYSTEM -->
+    <section id="complaints" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <!-- Left: Submit Complaint Form -->
+        <div class="lg:col-span-6 space-y-6">
+          <div>
+            <span class="inline-block px-3.5 py-1 rounded-full bg-peach-secondary text-peach-accent text-xs font-bold uppercase tracking-wider mb-3">24/7 Helpdesk & Maintenance</span>
+            <h2 class="text-3xl font-extrabold text-peach-dark tracking-tight">Raise a Maintenance or Support Ticket</h2>
+            <p class="text-peach-muted mt-2 text-sm">Report room maintenance, Wi-Fi, water, food, or security concerns. Tickets sync immediately with the Hostel Admin Dashboard for live resolution.</p>
+          </div>
+
+          <form onsubmit="submitComplaint(event)" class="bg-white rounded-3xl p-6 sm:p-8 border border-peach-border shadow-warm space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-peach-dark mb-1">Resident Name *</label>
+                <input id="comp-name" type="text" required placeholder="Full Name" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-2.5 text-sm" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-peach-dark mb-1">Room Number *</label>
+                <input id="comp-room" type="text" required placeholder="e.g., B-204" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-2.5 text-sm" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-peach-dark mb-1">Issue Category *</label>
+              <select id="comp-category" required class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-2.5 text-sm font-medium">
+                <option value="Water problems">Water problems</option>
+                <option value="Electricity problems">Electricity problems</option>
+                <option value="Wi-Fi issues">Wi-Fi issues</option>
+                <option value="Food quality">Food quality</option>
+                <option value="Room cleaning">Room cleaning</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Security concerns">Security concerns</option>
+                <option value="Other complaints">Other complaints</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-peach-dark mb-1">Detailed Description *</label>
+              <textarea id="comp-desc" rows="3" required placeholder="Describe the issue clearly so our technician can bring the right tools..." class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-2.5 text-sm"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-peach-dark mb-1">Attach Photo (Optional)</label>
+              <input id="comp-photo" type="file" accept="image/*" class="w-full text-xs text-peach-muted file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-peach-primary/50 file:text-peach-dark hover:file:bg-peach-primary" />
+            </div>
+
+            <div class="pt-2 flex flex-wrap items-center justify-between gap-3">
+              <a href="https://wa.me/919876543210?text=Hello%20PeachNest%20Warden,%20I%20need%20urgent%20assistance." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-3.5 py-2.5 rounded-xl hover:bg-emerald-100 transition-colors">
+                <i data-lucide="phone-call" class="w-4 h-4"></i>
+                <span>Direct Warden WhatsApp</span>
+              </a>
+
+              <button type="submit" class="px-6 py-3 rounded-xl bg-peach-dark hover:bg-peach-accent hover:text-peach-dark text-white font-bold text-sm transition-all shadow-warm">
+                Submit Ticket
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Right: Live Complaint Tracker -->
+        <div class="lg:col-span-6 space-y-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="inline-block px-3.5 py-1 rounded-full bg-peach-secondary text-peach-accent text-xs font-bold uppercase tracking-wider mb-3">Real-Time Resolution Feed</span>
+              <h3 class="text-2xl font-extrabold text-peach-dark">Live Complaint Tracker</h3>
+            </div>
+            <span class="text-xs font-bold px-3 py-1.5 rounded-full bg-peach-secondary text-peach-dark border border-peach-border" id="public-complaint-count">3 Active Tickets</span>
+          </div>
+
+          <div id="public-complaints-list" class="space-y-4 max-h-[540px] overflow-y-auto pr-1">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. CUSTOMER & PARENT REVIEWS -->
+    <section class="py-16 bg-peach-secondary/50 border-t border-peach-border">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-white text-peach-accent text-xs font-bold uppercase tracking-wider mb-3 border border-peach-border">Trusted by Families</span>
+          <h2 class="text-3xl font-extrabold text-peach-dark">Loved by Residents & Parents</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex text-peach-accent">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700">Verified Resident</span>
+            </div>
+            <p class="text-sm text-peach-dark leading-relaxed">"Moving to Hyderabad for my tech internship was effortless with PeachNest. The single AC room is sunlit, Wi-Fi hits 300 Mbps, and the QR entry + digital rent receipts save so much hassle."</p>
+            <div class="pt-2 border-t border-peach-border flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-peach-primary flex items-center justify-center font-bold text-peach-dark">AS</div>
+              <div>
+                <div class="text-sm font-bold text-peach-dark">Ananya Sharma</div>
+                <div class="text-xs text-peach-muted">Software Engineer • Madhapur Wing</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex text-peach-accent">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800">Verified Parent</span>
+            </div>
+            <p class="text-sm text-peach-dark leading-relaxed">"As a parent, Parent Connect gives me complete peace of mind. I get transparent fee updates, warden contact access, and know my son is eating healthy food in a secure environment."</p>
+            <div class="pt-2 border-t border-peach-border flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-peach-accent/40 flex items-center justify-center font-bold text-peach-dark">RK</div>
+              <div>
+                <div class="text-sm font-bold text-peach-dark">Rajesh Kulkarni</div>
+                <div class="text-xs text-peach-muted">Parent of B.Tech Student • Gachibowli</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex text-peach-accent">
+                <i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i><i data-lucide="star" class="w-4 h-4 fill-current"></i>
+              </div>
+              <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700">Verified Resident</span>
+            </div>
+            <p class="text-sm text-peach-dark leading-relaxed">"The Roommate Finder matched me with someone who has the exact same early-riser study schedule. Plus, Sunday biryani and the rooftop lounge make it feel like a boutique hotel!"</p>
+            <div class="pt-2 border-t border-peach-border flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-peach-primary flex items-center justify-center font-bold text-peach-dark">VN</div>
+              <div>
+                <div class="text-sm font-bold text-peach-dark">Vikram Nair</div>
+                <div class="text-xs text-peach-muted">CA Finalist • Koramangala Wing</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. CONTACT US & LOCATION -->
+    <section id="contact" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div class="lg:col-span-5 space-y-6">
+          <div>
+            <span class="inline-block px-3.5 py-1 rounded-full bg-peach-secondary text-peach-accent text-xs font-bold uppercase tracking-wider mb-3">Visit or Reach Out</span>
+            <h2 class="text-3xl font-extrabold text-peach-dark">Schedule a Tour or Say Hello</h2>
+            <p class="text-peach-muted text-sm mt-2">Have questions about room availability, corporate tie-ups, or parent visits? Our resident care desk responds within 15 minutes.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div class="flex items-start gap-4 p-4 rounded-2xl bg-peach-secondary border border-peach-border">
+              <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-peach-accent shrink-0">
+                <i data-lucide="map-pin" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <div class="text-sm font-bold text-peach-dark">Flagship Campus Address</div>
+                <div class="text-xs text-peach-muted mt-0.5">Plot 42, Peach Blossom Avenue, Madhapur, HITEC City, Hyderabad, Telangana 500081</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="flex items-start gap-3 p-4 rounded-2xl bg-peach-secondary border border-peach-border">
+                <i data-lucide="phone" class="w-5 h-5 text-peach-accent shrink-0 mt-0.5"></i>
+                <div>
+                  <div class="text-xs font-bold text-peach-dark">24/7 Warden Desk</div>
+                  <div class="text-xs text-peach-muted mt-0.5">+91 98765 43210</div>
+                </div>
+              </div>
+              <div class="flex items-start gap-3 p-4 rounded-2xl bg-peach-secondary border border-peach-border">
+                <i data-lucide="mail" class="w-5 h-5 text-peach-accent shrink-0 mt-0.5"></i>
+                <div>
+                  <div class="text-xs font-bold text-peach-dark">Admissions Email</div>
+                  <div class="text-xs text-peach-muted mt-0.5">stay@peachnestpg.in</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interactive Map Frame -->
+            <div class="rounded-3xl overflow-hidden border border-peach-border shadow-warm h-52 bg-peach-secondary relative">
+              <iframe
+                title="PeachNest PG Location Map"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=78.3750%2C17.4380%2C78.3980%2C17.4540&layer=mapnik&marker=17.4460%2C78.3865"
+                class="w-full h-full border-0"
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-10 border border-peach-border shadow-warm">
+          <h3 class="text-xl font-extrabold text-peach-dark mb-1">Send Us a Direct Inquiry</h3>
+          <p class="text-xs text-peach-muted mb-6">Fill in your details and our housing advisor will contact you shortly.</p>
+
+          <form onsubmit="submitContactForm(event)" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-peach-dark mb-1">Your Name *</label>
+                <input id="contact-name" type="text" required placeholder="Enter full name" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-4 py-3 text-sm" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-peach-dark mb-1">Phone / WhatsApp *</label>
+                <input id="contact-phone" type="tel" required placeholder="+91 90000 00000" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-4 py-3 text-sm" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold text-peach-dark mb-1">Email Address *</label>
+                <input id="contact-email" type="email" required placeholder="you@example.com" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-4 py-3 text-sm" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-peach-dark mb-1">I am a</label>
+                <select id="contact-role" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-4 py-3 text-sm">
+                  <option value="Student">Student</option>
+                  <option value="Working Professional">Working Professional</option>
+                  <option value="Parent / Guardian">Parent / Guardian</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-peach-dark mb-1">Message / Preferred Move-in Date *</label>
+              <textarea id="contact-msg" rows="4" required placeholder="Tell us your preferred room type, budget, or schedule a physical/video visit..." class="w-full rounded-xl bg-peach-secondary border border-peach-border px-4 py-3 text-sm"></textarea>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+              <a href="https://wa.me/919876543210?text=Hi%20PeachNest%20PG!%20I%20would%20like%20to%20enquire%20about%20room%20availability." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm transition-all">
+                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                <span>Chat on WhatsApp</span>
+              </a>
+
+              <button type="submit" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-peach-primary to-peach-accent text-peach-dark font-extrabold text-sm shadow-peach-glow hover:scale-[1.01] transition-all">
+                Send Inquiry
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 2: SMART RESIDENT DASHBOARD                                      -->
+  <!-- ===================================================================== -->
+  <section id="view-resident" class="hidden py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <!-- Dashboard Top Header -->
+    <div class="bg-gradient-to-r from-peach-secondary via-white to-peach-primary/30 rounded-3xl p-6 sm:p-8 border border-peach-border shadow-warm flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div class="space-y-1.5">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-peach-primary/50 text-peach-dark text-xs font-bold">
+          <i data-lucide="badge-check" class="w-3.5 h-3.5 text-peach-accent"></i>
+          <span>ACTIVE RESIDENT PORTAL</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-peach-dark">Welcome back, <span id="res-welcome-name">Aarav Mehta</span>!</h1>
+        <p class="text-sm text-peach-muted">Room <strong class="text-peach-dark" id="res-room-badge">PN-201 (Double Sharing AC)</strong> • Bed #1 • Madhapur Wing</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <button onclick="openSOSModal()" class="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-warm inline-flex items-center gap-2">
+          <i data-lucide="siren" class="w-4 h-4"></i>
+          <span>Emergency SOS</span>
+        </button>
+        <button onclick="switchView('public', 'home')" class="px-4 py-2.5 rounded-xl bg-white border border-peach-border text-peach-dark font-bold text-xs hover:bg-peach-secondary">
+          Back to Public Site
+        </button>
+      </div>
+    </div>
+
+    <!-- Rent Reminder Alert Banner -->
+    <div id="rent-reminder-banner" class="rounded-2xl bg-amber-50 border border-amber-200 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="flex items-start gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+          <i data-lucide="bell-ring" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <div class="text-sm font-extrabold text-amber-950">Upcoming Rent Reminder — December 2026 Cycle</div>
+          <div class="text-xs text-amber-800 mt-0.5" id="res-rent-status-text">Monthly Rent of ₹12,500 is due by 5th Dec 2026. Pay early to avoid late fee.</div>
+        </div>
+      </div>
+      <button id="res-pay-rent-btn" onclick="recordResidentRentPayment()" class="px-5 py-2.5 rounded-xl bg-peach-dark text-white font-bold text-xs hover:bg-peach-accent hover:text-peach-dark transition-all shrink-0">
+        Log Rent Payment Request
+      </button>
+    </div>
+
+    <!-- Main Resident Grid: QR Pass, Room & Rent Summary, Digital Notice Board -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Digital QR Code Entry Pass -->
+      <div class="lg:col-span-4 bg-white rounded-3xl p-6 border border-peach-border shadow-warm flex flex-col items-center text-center justify-between">
+        <div class="w-full flex items-center justify-between mb-3">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-peach-accent">Smart Gate Pass</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-bold">Verified Active</span>
+        </div>
+
+        <!-- Crisp Deterministic SVG QR Code -->
+        <div class="p-4 rounded-2xl bg-peach-secondary border-2 border-dashed border-peach-primary my-2">
+          <svg id="resident-qr-svg" class="w-40 h-40 text-peach-dark" viewBox="0 0 100 100" fill="currentColor">
+            <!-- Generated dynamically via JS -->
+          </svg>
+        </div>
+
+        <div class="space-y-1 mt-2">
+          <div class="text-sm font-extrabold text-peach-dark" id="qr-resident-id">ID: PN-RES-2026-084</div>
+          <div class="text-xs text-peach-muted">Scan at Main Biometric Turnstile • Valid 24/7</div>
+        </div>
+
+        <button onclick="regenerateQRToken()" class="mt-4 w-full py-2.5 rounded-xl bg-peach-secondary hover:bg-peach-primary/50 text-peach-dark font-bold text-xs transition-colors inline-flex items-center justify-center gap-1.5">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+          <span>Refresh Dynamic Security Token</span>
+        </button>
+      </div>
+
+      <!-- Digital Notice Board (Live Announcements from Admin) -->
+      <div class="lg:col-span-8 bg-white rounded-3xl p-6 border border-peach-border shadow-warm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl bg-peach-secondary flex items-center justify-center text-peach-accent">
+                <i data-lucide="megaphone" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h2 class="text-lg font-extrabold text-peach-dark">Digital Notice Board</h2>
+                <p class="text-xs text-peach-muted">Live hostel announcements & upcoming community events</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold px-3 py-1 rounded-full bg-peach-secondary text-peach-dark" id="notice-count-badge">3 Notices</span>
+          </div>
+
+          <div id="resident-notices-list" class="space-y-3 max-h-64 overflow-y-auto pr-1">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Quick Resident Tools Tabs -->
+        <div class="mt-6 pt-4 border-t border-peach-border grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <button onclick="scrollToSection('res-tools-section')" class="p-2.5 rounded-xl bg-peach-secondary hover:bg-peach-primary/40 text-xs font-bold text-peach-dark flex items-center justify-center gap-1.5">
+            <i data-lucide="users-round" class="w-4 h-4 text-peach-accent"></i>
+            <span>Roommate Finder</span>
+          </button>
+          <button onclick="scrollToSection('res-tools-section')" class="p-2.5 rounded-xl bg-peach-secondary hover:bg-peach-primary/40 text-xs font-bold text-peach-dark flex items-center justify-center gap-1.5">
+            <i data-lucide="calculator" class="w-4 h-4 text-peach-accent"></i>
+            <span>Expense Calc</span>
+          </button>
+          <button onclick="scrollToSection('res-ops-section')" class="p-2.5 rounded-xl bg-peach-secondary hover:bg-peach-primary/40 text-xs font-bold text-peach-dark flex items-center justify-center gap-1.5">
+            <i data-lucide="user-plus" class="w-4 h-4 text-peach-accent"></i>
+            <span>Visitor Pass</span>
+          </button>
+          <button onclick="scrollToSection('res-ops-section')" class="p-2.5 rounded-xl bg-peach-secondary hover:bg-peach-primary/40 text-xs font-bold text-peach-dark flex items-center justify-center gap-1.5">
+            <i data-lucide="calendar-off" class="w-4 h-4 text-peach-accent"></i>
+            <span>Leave Request</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Tools Row: Roommate Finder & Monthly Expense Calculator -->
+    <div id="res-tools-section" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Roommate Finder -->
+      <div class="lg:col-span-7 bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="text-lg font-extrabold text-peach-dark flex items-center gap-2">
+              <i data-lucide="heart-handshake" class="w-5 h-5 text-peach-accent"></i>
+              <span>Smart Roommate Finder</span>
+            </h3>
+            <p class="text-xs text-peach-muted">Filter residents seeking roommates based on lifestyle compatibility</p>
+          </div>
+          <select id="rm-filter-habit" onchange="renderRoommateFinder()" class="rounded-xl bg-peach-secondary border border-peach-border px-3 py-2 text-xs font-bold">
+            <option value="all">All Lifestyles</option>
+            <option value="Early Bird">Early Bird / Studious</option>
+            <option value="Night Owl">Night Owl / Coder</option>
+            <option value="Vegetarian">Pure Vegetarian</option>
+          </select>
+        </div>
+
+        <div id="roommate-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Monthly Expense Calculator -->
+      <div class="lg:col-span-5 bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-5">
+        <div>
+          <h3 class="text-lg font-extrabold text-peach-dark flex items-center gap-2">
+            <i data-lucide="calculator" class="w-5 h-5 text-peach-accent"></i>
+            <span>Monthly Expense Calculator</span>
+          </h3>
+          <p class="text-xs text-peach-muted">Estimate your all-inclusive monthly hostel budget</p>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-xs font-bold mb-1">
+              <span>Room Base Rent</span>
+              <span id="calc-rent-val" class="text-peach-accent">₹12,500</span>
+            </div>
+            <input id="calc-rent" type="range" min="7500" max="22000" step="500" value="12500" oninput="updateExpenseCalc()" class="w-full accent-[#FF9B85]" />
+          </div>
+
+          <div class="flex items-center justify-between p-3 rounded-xl bg-peach-secondary">
+            <span class="text-xs font-bold text-peach-dark">4-Meal Food Subscription (₹3,500)</span>
+            <input id="calc-food" type="checkbox" checked onchange="updateExpenseCalc()" class="w-4 h-4 accent-[#FF9B85]" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-bold mb-1">
+              <span>AC Metered Units (<span id="calc-units-label">60</span> kWh @ ₹10/unit)</span>
+              <span id="calc-elec-val" class="text-peach-accent">₹600</span>
+            </div>
+            <input id="calc-units" type="range" min="0" max="250" step="10" value="60" oninput="updateExpenseCalc()" class="w-full accent-[#FF9B85]" />
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-bold mb-1">
+              <span>Laundry & Personal Extras</span>
+              <span id="calc-extra-val" class="text-peach-accent">₹800</span>
+            </div>
+            <input id="calc-extra" type="range" min="0" max="3000" step="200" value="800" oninput="updateExpenseCalc()" class="w-full accent-[#FF9B85]" />
+          </div>
+
+          <div class="p-4 rounded-2xl bg-peach-dark text-white flex items-center justify-between">
+            <div>
+              <div class="text-[11px] uppercase tracking-wider text-peach-primary font-bold">Estimated Monthly Total</div>
+              <div class="text-xs text-peach-secondary/80">Transparent, zero hidden charges</div>
+            </div>
+            <div id="calc-total" class="text-2xl font-extrabold text-peach-primary">₹17,400</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Operations Row: Digital Visitor Management & Leave Request System -->
+    <div id="res-ops-section" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <!-- Digital Visitor Management -->
+      <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-5">
+        <div>
+          <h3 class="text-lg font-extrabold text-peach-dark flex items-center gap-2">
+            <i data-lucide="user-check" class="w-5 h-5 text-peach-accent"></i>
+            <span>Digital Visitor Management</span>
+          </h3>
+          <p class="text-xs text-peach-muted">Pre-register guests & log check-in / check-out timestamps</p>
+        </div>
+
+        <form onsubmit="addVisitorLog(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <input id="vis-name" type="text" required placeholder="Visitor Full Name" class="rounded-xl bg-peach-secondary border border-peach-border px-3 py-2 text-xs font-medium" />
+          <input id="vis-phone" type="tel" required placeholder="Visitor Phone" class="rounded-xl bg-peach-secondary border border-peach-border px-3 py-2 text-xs font-medium" />
+          <button type="submit" class="rounded-xl bg-peach-dark text-white font-bold text-xs py-2.5 px-4 hover:bg-peach-accent hover:text-peach-dark transition-all">
+            + Log Check-In
+          </button>
+        </form>
+
+        <div id="resident-visitors-list" class="space-y-2.5 max-h-56 overflow-y-auto">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Leave Request System -->
+      <div class="lg:col-span-6 bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-5">
+        <div>
+          <h3 class="text-lg font-extrabold text-peach-dark flex items-center gap-2">
+            <i data-lucide="plane-takeoff" class="w-5 h-5 text-peach-accent"></i>
+            <span>Online Leave Request System</span>
+          </h3>
+          <p class="text-xs text-peach-muted">Apply for overnight or weekend home leave (notifies Warden & Parent Connect)</p>
+        </div>
+
+        <form onsubmit="submitLeaveRequest(event)" class="space-y-3">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-[11px] font-bold text-peach-muted mb-1">From Date</label>
+              <input id="leave-from" type="date" required class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3 py-2 text-xs" />
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-peach-muted mb-1">To Date</label>
+              <input id="leave-to" type="date" required class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3 py-2 text-xs" />
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <input id="leave-reason" type="text" required placeholder="Reason (e.g., Visiting hometown for weekend)" class="flex-1 rounded-xl bg-peach-secondary border border-peach-border px-3 py-2 text-xs" />
+            <button type="submit" class="px-5 py-2.5 rounded-xl bg-peach-dark text-white font-bold text-xs hover:bg-peach-accent hover:text-peach-dark transition-all shrink-0">
+              Apply Leave
+            </button>
+          </div>
+        </form>
+
+        <div id="resident-leaves-list" class="space-y-2.5 max-h-48 overflow-y-auto">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 3: PARENT CONNECT PORTAL                                         -->
+  <!-- ===================================================================== -->
+  <section id="view-parent" class="hidden py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <div class="bg-gradient-to-r from-[#49352E] to-[#6B4E44] rounded-3xl p-6 sm:p-8 text-white shadow-warm-lg flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-peach-primary text-peach-dark text-xs font-extrabold">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+          <span>PARENT CONNECT GUARDIAN PORTAL</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold">Guardian Overview: Mr. Suresh Mehta</h1>
+        <p class="text-sm text-peach-secondary/85">Linked Ward: <strong class="text-peach-primary">Aarav Mehta</strong> • Room PN-201 (Madhapur Campus)</p>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="tel:+919876543210" class="px-5 py-3 rounded-xl bg-peach-primary text-peach-dark font-bold text-xs hover:bg-white transition-all inline-flex items-center gap-2">
+          <i data-lucide="phone-call" class="w-4 h-4"></i>
+          <span>Call Chief Warden</span>
+        </a>
+        <button onclick="switchView('public', 'home')" class="px-4 py-3 rounded-xl bg-white/15 text-white font-bold text-xs hover:bg-white/25">
+          Public Site
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase text-peach-muted">Biometric Entry Status</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold">Inside Hostel</span>
+        </div>
+        <div class="text-xl font-extrabold text-peach-dark">Checked In: 08:42 PM</div>
+        <p class="text-xs text-peach-muted">Verified via Smart QR Gate Pass at Main Entrance Turnstile.</p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase text-peach-muted">Rent & Fee Ledger</span>
+          <span id="parent-fee-badge" class="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 text-xs font-bold">Due Dec 5</span>
+        </div>
+        <div class="text-xl font-extrabold text-peach-dark">₹12,500 / month</div>
+        <p class="text-xs text-peach-muted">Security Deposit of ₹20,000 held safely in escrow.</p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase text-peach-muted">Ward Leave & Outing Logs</span>
+          <span class="px-2.5 py-0.5 rounded-full bg-peach-secondary text-peach-dark text-xs font-bold" id="parent-leave-count">1 Record</span>
+        </div>
+        <div class="text-xl font-extrabold text-peach-dark">Live Sync Enabled</div>
+        <p class="text-xs text-peach-muted">Instant notifications whenever your ward applies for overnight leave.</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-4">
+        <h3 class="text-lg font-extrabold text-peach-dark">Ward Leave Applications</h3>
+        <div id="parent-leaves-list" class="space-y-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-4">
+        <h3 class="text-lg font-extrabold text-peach-dark">Hostel Announcements & Safety Bulletins</h3>
+        <div id="parent-notices-list" class="space-y-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 4: HOSTEL ADMIN DASHBOARD                                        -->
+  <!-- ===================================================================== -->
+  <section id="view-admin" class="hidden py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <!-- Admin Header -->
+    <div class="bg-peach-dark rounded-3xl p-6 sm:p-8 text-white shadow-warm-lg flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-peach-accent text-peach-dark text-xs font-extrabold mb-2">
+          <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+          <span>HOSTEL COMMAND & ADMIN CENTER</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold">PeachNest Operations Dashboard</h1>
+        <p class="text-sm text-peach-secondary/80 mt-1">Manage room inventory, approve bookings, resolve resident tickets, and publish notices in real time.</p>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <button onclick="openAddRoomModal()" class="px-5 py-3 rounded-xl bg-peach-primary text-peach-dark font-extrabold text-xs hover:bg-white transition-all inline-flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          <span>+ Add New Room</span>
+        </button>
+        <button onclick="switchView('public', 'home')" class="px-4 py-3 rounded-xl bg-white/15 text-white font-bold text-xs hover:bg-white/25">
+          View Public Site
+        </button>
+      </div>
+    </div>
+
+    <!-- Admin KPI Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="bg-white rounded-2xl p-5 border border-peach-border shadow-warm">
+        <div class="text-xs font-bold text-peach-muted uppercase">Live Occupancy Rate</div>
+        <div id="admin-kpi-occupancy" class="text-2xl sm:text-3xl font-extrabold text-peach-dark mt-1">78%</div>
+        <div class="text-xs text-emerald-700 font-semibold mt-1" id="admin-kpi-beds-sub">14 beds open</div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 border border-peach-border shadow-warm">
+        <div class="text-xs font-bold text-peach-muted uppercase">Projected Monthly Revenue</div>
+        <div id="admin-kpi-revenue" class="text-2xl sm:text-3xl font-extrabold text-peach-dark mt-1">₹4,85,000</div>
+        <div class="text-xs text-peach-muted mt-1">Includes active residents</div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 border border-peach-border shadow-warm">
+        <div class="text-xs font-bold text-peach-muted uppercase">Pending Bookings</div>
+        <div id="admin-kpi-bookings" class="text-2xl sm:text-3xl font-extrabold text-peach-accent mt-1">0</div>
+        <div class="text-xs text-peach-muted mt-1">Awaiting verification</div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-5 border border-peach-border shadow-warm">
+        <div class="text-xs font-bold text-peach-muted uppercase">Open Support Tickets</div>
+        <div id="admin-kpi-complaints" class="text-2xl sm:text-3xl font-extrabold text-amber-600 mt-1">2</div>
+        <div class="text-xs text-peach-muted mt-1">Requires warden action</div>
+      </div>
+    </div>
+
+    <!-- Admin Navigation Tabs -->
+    <div class="flex flex-wrap gap-2 border-b border-peach-border pb-3">
+      <button onclick="switchAdminTab('bookings')" id="admtab-bookings" class="adm-tab px-4 py-2 rounded-xl bg-peach-dark text-white text-xs font-bold">Bookings & Approvals</button>
+      <button onclick="switchAdminTab('rooms')" id="admtab-rooms" class="adm-tab px-4 py-2 rounded-xl bg-peach-secondary text-peach-dark text-xs font-bold">Room Inventory (CRUD)</button>
+      <button onclick="switchAdminTab('complaints')" id="admtab-complaints" class="adm-tab px-4 py-2 rounded-xl bg-peach-secondary text-peach-dark text-xs font-bold">Complaints & SOS</button>
+      <button onclick="switchAdminTab('notices')" id="admtab-notices" class="adm-tab px-4 py-2 rounded-xl bg-peach-secondary text-peach-dark text-xs font-bold">Announcements & Leaves</button>
+    </div>
+
+    <!-- Admin Tab 1: Bookings & Approvals -->
+    <div id="admin-panel-bookings" class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-extrabold text-peach-dark">Room Booking Requests</h3>
+        <span class="text-xs text-peach-muted">Approving a booking automatically updates live room bed availability.</span>
+      </div>
+      <div id="admin-bookings-list" class="space-y-3">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Admin Tab 2: Room Inventory Management -->
+    <div id="admin-panel-rooms" class="hidden bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-extrabold text-peach-dark">Manage Rooms & Live Bed Counts</h3>
+        <button onclick="openAddRoomModal()" class="px-4 py-2 rounded-xl bg-peach-primary text-peach-dark font-bold text-xs">+ Add Room</button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-peach-border text-peach-muted uppercase">
+              <th class="py-3 px-3">Room</th>
+              <th class="py-3 px-3">Category</th>
+              <th class="py-3 px-3">Location</th>
+              <th class="py-3 px-3">Rent/Mo</th>
+              <th class="py-3 px-3">Available / Total Beds</th>
+              <th class="py-3 px-3 text-right">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="admin-rooms-tbody" class="divide-y divide-peach-border">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Admin Tab 3: Complaints & SOS Alerts -->
+    <div id="admin-panel-complaints" class="hidden bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-4">
+      <h3 class="text-lg font-extrabold text-peach-dark">Resident Support Tickets & Emergency Logs</h3>
+      <div id="admin-complaints-list" class="space-y-3">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Admin Tab 4: Publish Announcements & Leave Approvals -->
+    <div id="admin-panel-notices" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-4">
+        <h3 class="text-lg font-extrabold text-peach-dark">Broadcast New Announcement</h3>
+        <form onsubmit="publishAdminNotice(event)" class="space-y-3">
+          <input id="adm-notice-title" type="text" required placeholder="Announcement Title (e.g., Sunday Yoga Session)" class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-2.5 text-sm" />
+          <textarea id="adm-notice-body" rows="3" required placeholder="Write announcement details for all residents & parents..." class="w-full rounded-xl bg-peach-secondary border border-peach-border px-3.5 py-2.5 text-sm"></textarea>
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-peach-dark text-white font-bold text-xs hover:bg-peach-accent hover:text-peach-dark transition-all">
+            Publish to Notice Board
+          </button>
+        </form>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-4">
+        <h3 class="text-lg font-extrabold text-peach-dark">Resident Leave Requests</h3>
+        <div id="admin-leaves-list" class="space-y-3">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- FOOTER                                                                -->
+  <!-- ===================================================================== -->
+  <footer class="bg-[#2D1F1A] text-peach-secondary/85 pt-16 pb-10 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-peach-primary to-peach-accent flex items-center justify-center text-peach-dark font-extrabold">
+              PN
+            </div>
+            <span class="font-heading font-extrabold text-xl text-white">PeachNest <span class="text-peach-primary">PG</span></span>
+          </div>
+          <p class="text-xs leading-relaxed text-peach-secondary/75">
+            Redefining student & working professional co-living with warm hospitality, transparent digital management, and uncompromising safety.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Quick Navigation</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><button onclick="switchView('public', 'rooms')" class="hover:text-peach-primary">Explore Rooms & Pricing</button></li>
+            <li><button onclick="switchView('public', 'facilities')" class="hover:text-peach-primary">12 All-Inclusive Facilities</button></li>
+            <li><button onclick="switchView('public', 'food')" class="hover:text-peach-primary">Weekly Homely Food Menu</button></li>
+            <li><button onclick="switchView('public', 'rules')" class="hover:text-peach-primary">Hostel Rules & Timings</button></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Smart Portals</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><button onclick="quickDemoLogin('resident')" class="hover:text-peach-primary">Smart Resident Dashboard</button></li>
+            <li><button onclick="quickDemoLogin('parent')" class="hover:text-peach-primary">Parent Connect Portal</button></li>
+            <li><button onclick="quickDemoLogin('admin')" class="hover:text-peach-primary">Hostel Admin Command</button></li>
+            <li><button onclick="openBookingTrackerModal()" class="hover:text-peach-primary">Track Booking Status</button></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Legal & Support</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><button onclick="openInfoModal('Privacy Policy', 'PeachNest PG encrypts resident ID documents, biometric gate logs, and guardian contact information. Data is never sold to third parties and is used strictly for hostel safety and compliance.')" class="hover:text-peach-primary">Privacy Policy</button></li>
+            <li><button onclick="openInfoModal('Terms & Conditions', 'Monthly rent is payable by the 5th of every month. Security deposit is 100% refundable upon 30 days prior notice and room inspection.')" class="hover:text-peach-primary">Terms & Conditions</button></li>
+            <li class="pt-1 text-peach-primary font-semibold">+91 98765 43210 • stay@peachnestpg.in</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-peach-secondary/60">
+        <div>© 2026 PeachNest PG & Co-Living Spaces Pvt. Ltd. All rights reserved.</div>
+        <div>Designed with warmth for students, professionals & families.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================== -->
+  <!-- MODALS (ROOM DETAILS, BOOKING FLOW, TRACKER, AUTH, SOS, ADD ROOM)     -->
+  <!-- ===================================================================== -->
+
+  <!-- 1. ROOM DETAILS & SMART BED MAP MODAL -->
+  <div id="modal-room-details" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-peach-bg rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-peach-border shadow-warm-lg relative my-8">
+      <button onclick="closeModal('modal-room-details')" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-peach-secondary flex items-center justify-center text-peach-dark hover:bg-peach-primary">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <div id="room-details-content"></div>
+    </div>
+  </div>
+
+  <!-- 2. ONLINE ROOM BOOKING MODAL -->
+  <div id="modal-booking" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-peach-bg rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-peach-border shadow-warm-lg relative my-8">
+      <button onclick="closeModal('modal-booking')" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-peach-secondary flex items-center justify-center text-peach-dark hover:bg-peach-primary">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <div class="mb-6">
+        <span class="px-3 py-1 rounded-full bg-peach-secondary text-peach-accent text-xs font-bold uppercase">Online Bed Reservation</span>
+        <h3 class="text-2xl font-extrabold text-peach-dark mt-2">Reserve Your Stay at PeachNest PG</h3>
+        <p class="text-xs text-peach-muted">Submit your verified request. Our warden verifies your ID within 2 hours before collecting advance payment.</p>
+      </div>
+
+      <form id="booking-form" onsubmit="submitRoomBooking(event)" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-peach-dark mb-1">Select Room *</label>
+            <select id="book-room-select" onchange="updateBookingSummary()" required class="w-full rounded-xl bg-white border border-peach-border px-3.5 py-2.5 text-sm font-medium"></select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-peach-dark mb-1">Preferred Check-in Date *</label>
+            <input id="book-checkin" type="date" required class="w-full rounded-xl bg-white border border-peach-border px-3.5 py-2.5 text-sm" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-peach-dark mb-1">Full Name *</label>
+            <input id="book-name" type="text" required placeholder="Resident Full Name" class="w-full rounded-xl bg-white border border-peach-border px-3.5 py-2.5 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-peach-dark mb-1">Phone Number *</label>
+            <input id="book-phone" type="tel" required placeholder="+91 98765 43210" class="w-full rounded-xl bg-white border border-peach-border px-3.5 py-2.5 text-sm" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-peach-dark mb-1">Email Address *</label>
+            <input id="book-email" type="email" required placeholder="resident@email.com" class="w-full rounded-xl bg-white border border-peach-border px-3.5 py-2.5 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-peach-dark mb-1">College / Company Name *</label>
+            <input id="book-org" type="text" required placeholder="e.g., IIIT Hyderabad / Deloitte" class="w-full rounded-xl bg-white border border-peach-border px-3.5 py-2.5 text-sm" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-center">
+          <div>
+            <label class="block text-xs font-bold text-peach-dark mb-1">Upload Govt ID / College ID *</label>
+            <input id="book-id-doc" type="file" accept=".pdf,image/*" required class="w-full text-xs text-peach-muted file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:font-bold file:bg-peach-primary/50 file:text-peach-dark" />
+          </div>
+          <label class="flex items-center gap-2.5 p-3 rounded-xl bg-peach-secondary border border-peach-border cursor-pointer mt-2 sm:mt-4">
+            <input id="book-food-plan" type="checkbox" checked onchange="updateBookingSummary()" class="w-4 h-4 accent-[#FF9B85]" />
+            <span class="text-xs font-bold text-peach-dark">Include 4-Meal Food Plan (+₹3,500/mo)</span>
+          </label>
+        </div>
+
+        <!-- Transparent Fee Breakdown -->
+        <div class="rounded-2xl bg-peach-secondary p-4 border border-peach-border space-y-2 text-xs">
+          <div class="flex justify-between">
+            <span class="text-peach-muted">Monthly Room Rent:</span>
+            <span id="book-sum-rent" class="font-bold text-peach-dark">₹12,500</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-peach-muted">Monthly Food Subscription:</span>
+            <span id="book-sum-food" class="font-bold text-peach-dark">₹3,500</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-peach-muted">Refundable Security Deposit (One-time):</span>
+            <span id="book-sum-deposit" class="font-bold text-peach-dark">₹15,000</span>
+          </div>
+          <div class="pt-2 border-t border-peach-border flex justify-between text-sm font-extrabold text-peach-dark">
+            <span>Total Payable Upon Approval:</span>
+            <span id="book-sum-total" class="text-peach-accent">₹31,000</span>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" onclick="closeModal('modal-booking')" class="px-5 py-3 rounded-xl bg-peach-secondary text-peach-dark font-bold text-xs">Cancel</button>
+          <button type="submit" class="px-7 py-3 rounded-xl bg-gradient-to-r from-peach-primary to-peach-accent text-peach-dark font-extrabold text-sm shadow-peach-glow">
+            Submit Booking Request
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. BOOKING STATUS TRACKER MODAL -->
+  <div id="modal-tracker" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-peach-bg rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-peach-border shadow-warm-lg relative my-8">
+      <button onclick="closeModal('modal-tracker')" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-peach-secondary flex items-center justify-center text-peach-dark hover:bg-peach-primary">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h3 class="text-2xl font-extrabold text-peach-dark">Booking Status Dashboard</h3>
+      <p class="text-xs text-peach-muted mt-1 mb-5">Track Pending, Confirmed, and Cancelled room applications in real time.</p>
+      <div id="tracker-bookings-list" class="space-y-3 max-h-96 overflow-y-auto"></div>
+    </div>
+  </div>
+
+  <!-- 4. MULTI-ROLE PORTAL LOGIN MODAL -->
+  <div id="modal-auth" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-peach-bg rounded-3xl max-w-md w-full p-6 sm:p-8 border border-peach-border shadow-warm-lg relative">
+      <button onclick="closeModal('modal-auth')" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-peach-secondary flex items-center justify-center text-peach-dark hover:bg-peach-primary">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <h3 class="text-2xl font-extrabold text-peach-dark">PeachNest Portal Login</h3>
+      <p class="text-xs text-peach-muted mt-1 mb-5">Select your role to access personalized smart hostel tools.</p>
+
+      <div class="grid grid-cols-3 gap-2 mb-5">
+        <button type="button" onclick="selectAuthRole('resident')" id="auth-role-resident" class="py-2.5 px-2 rounded-xl bg-peach-dark text-white text-xs font-bold">Student / Resident</button>
+        <button type="button" onclick="selectAuthRole('parent')" id="auth-role-parent" class="py-2.5 px-2 rounded-xl bg-peach-secondary text-peach-dark text-xs font-bold">Parent</button>
+        <button type="button" onclick="selectAuthRole('admin')" id="auth-role-admin" class="py-2.5 px-2 rounded-xl bg-peach-secondary text-peach-dark text-xs font-bold">Hostel Admin</button>
+      </div>
+
+      <form onsubmit="handleRoleLogin(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-peach-dark mb-1">Registered Email / ID</label>
+          <input id="auth-email" type="email" required value="aarav.mehta@peachnestpg.in" class="w-full rounded-xl bg-white border border-peach-border px-3.5 py-2.5 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-peach-dark mb-1">Password / Access PIN</label>
+          <input id="auth-pass" type="password" required value="peachnest2026" class="w-full rounded-xl bg-white border border-peach-border px-3.5 py-2.5 text-sm" />
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-peach-primary to-peach-accent text-peach-dark font-extrabold text-sm shadow-peach-glow">
+          Sign In to Portal
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. EMERGENCY SOS MODAL -->
+  <div id="modal-sos" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 border-2 border-red-200 shadow-warm-lg relative text-center space-y-4">
+      <div class="w-16 h-16 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto">
+        <i data-lucide="siren" class="w-8 h-8"></i>
+      </div>
+      <h3 class="text-2xl font-extrabold text-red-950">Emergency Warden & Security SOS</h3>
+      <p class="text-xs text-peach-muted leading-relaxed">
+        Triggering an SOS alert immediately notifies the on-duty Chief Warden, Security Desk, and logs a high-priority emergency ticket in the Admin Console.
+      </p>
+      <div class="flex flex-col gap-2.5 pt-2">
+        <button onclick="triggerEmergencySOS()" class="w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm shadow-warm">
+          SEND INSTANT SOS ALERT NOW
+        </button>
+        <a href="tel:+919876543210" class="w-full py-3 rounded-xl bg-peach-secondary text-peach-dark font-bold text-xs">
+          Call 24/7 Warden Helpline (+91 98765 43210)
+        </a>
+        <button onclick="closeModal('modal-sos')" class="text-xs text-peach-muted hover:underline pt-1">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. ADMIN ADD/EDIT ROOM MODAL -->
+  <div id="modal-add-room" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-peach-bg rounded-3xl max-w-lg w-full p-6 sm:p-8 border border-peach-border shadow-warm-lg relative">
+      <button onclick="closeModal('modal-add-room')" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-peach-secondary flex items-center justify-center text-peach-dark">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h3 class="text-xl font-extrabold text-peach-dark mb-4">Add New PG Room</h3>
+      <form onsubmit="submitNewRoom(event)" class="space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold mb-1">Room Code *</label>
+            <input id="new-room-code" type="text" required placeholder="e.g., PN-405" class="w-full rounded-xl bg-white border border-peach-border px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1">Category *</label>
+            <select id="new-room-cat" class="w-full rounded-xl bg-white border border-peach-border px-3 py-2 text-sm">
+              <option value="Single Sharing">Single Sharing</option>
+              <option value="Double Sharing">Double Sharing</option>
+              <option value="Triple Sharing">Triple Sharing</option>
+              <option value="Premium AC">Premium AC</option>
+              <option value="Non-AC">Non-AC</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold mb-1">Location *</label>
+            <select id="new-room-loc" class="w-full rounded-xl bg-white border border-peach-border px-3 py-2 text-sm">
+              <option value="Madhapur">Madhapur</option>
+              <option value="Gachibowli">Gachibowli</option>
+              <option value="Koramangala">Koramangala</option>
+              <option value="HSR Layout">HSR Layout</option>
+              <option value="Indiranagar">Indiranagar</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1">Monthly Rent (₹) *</label>
+            <input id="new-room-rent" type="number" required min="5000" max="40000" value="14000" class="w-full rounded-xl bg-white border border-peach-border px-3 py-2 text-sm" />
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold mb-1">Total Beds *</label>
+            <input id="new-room-total" type="number" required min="1" max="4" value="2" class="w-full rounded-xl bg-white border border-peach-border px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1">AC Type</label>
+            <select id="new-room-ac" class="w-full rounded-xl bg-white border border-peach-border px-3 py-2 text-sm">
+              <option value="AC">AC</option>
+              <option value="Non-AC">Non-AC</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold mb-1">Gender Wing</label>
+            <select id="new-room-gender" class="w-full rounded-xl bg-white border border-peach-border px-3 py-2 text-sm">
+              <option value="Girls">Girls</option>
+              <option value="Boys">Boys</option>
+              <option value="Co-Living">Co-Living</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-peach-dark text-white font-bold text-sm hover:bg-peach-accent hover:text-peach-dark transition-all mt-2">
+          Save Room to Inventory
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. GENERIC INFO MODAL (Privacy / Terms) -->
+  <div id="modal-info" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-peach-bg rounded-3xl max-w-md w-full p-6 border border-peach-border shadow-warm-lg relative space-y-3">
+      <h3 id="info-modal-title" class="text-xl font-extrabold text-peach-dark"></h3>
+      <p id="info-modal-body" class="text-xs text-peach-muted leading-relaxed"></p>
+      <button onclick="closeModal('modal-info')" class="px-5 py-2 rounded-xl bg-peach-dark text-white text-xs font-bold">Close</button>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER (Replaces alert() cleanly) -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT APPLICATION STATE & REAL-TIME SYNC ENGINE                  -->
+  <!-- ===================================================================== -->
+  <script>
+    // =========================================================================
+    // 1. INITIAL SEED DATA & PERSISTENT STATE ENGINE
+    // =========================================================================
+    const STORAGE_KEY = 'peachnest_pg_state_v1';
+
+    const DEFAULT_STATE = {
+      currentView: 'public',
+      currentRole: null, // 'resident' | 'parent' | 'admin'
+      selectedFoodDay: 'Monday',
+      qrSeed: 4829,
+      residentRentPaid: false,
+      rooms: [
+        {
+          id: 'PN-101',
+          name: 'Sunlit Solo Executive Suite',
+          category: 'Single Sharing',
+          location: 'Madhapur',
+          rent: 18500,
+          totalBeds: 1,
+          availableBeds: 1,
+          size: '165 sq.ft',
+          ac: 'AC',
+          attachedBath: true,
+          balcony: true,
+          gender: 'Girls',
+          image: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=900&q=80',
+          occupants: []
+        },
+        {
+          id: 'PN-201',
+          name: 'Peach Blossom Twin Studio',
+          category: 'Double Sharing',
+          location: 'Madhapur',
+          rent: 12500,
+          totalBeds: 2,
+          availableBeds: 1,
+          size: '220 sq.ft',
+          ac: 'AC',
+          attachedBath: true,
+          balcony: true,
+          gender: 'Boys',
+          image: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=900&q=80',
+          occupants: ['Aarav Mehta']
+        },
+        {
+          id: 'PN-204',
+          name: 'Amber Harmony Comfort Room',
+          category: 'Triple Sharing',
+          location: 'Gachibowli',
+          rent: 8500,
+          totalBeds: 3,
+          availableBeds: 2,
+          size: '280 sq.ft',
+          ac: 'Non-AC',
+          attachedBath: true,
+          balcony: false,
+          gender: 'Boys',
+          image: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=900&q=80',
+          occupants: ['Rohan Verma']
+        },
+        {
+          id: 'PN-302',
+          name: 'Royal Terrace Premium AC',
+          category: 'Premium AC',
+          location: 'Koramangala',
+          rent: 21000,
+          totalBeds: 1,
+          availableBeds: 1,
+          size: '195 sq.ft',
+          ac: 'AC',
+          attachedBath: true,
+          balcony: true,
+          gender: 'Co-Living',
+          image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=900&q=80',
+          occupants: []
+        },
+        {
+          id: 'PN-305',
+          name: 'Breezy Courtyard Non-AC Twin',
+          category: 'Non-AC',
+          location: 'HSR Layout',
+          rent: 9500,
+          totalBeds: 2,
+          availableBeds: 2,
+          size: '210 sq.ft',
+          ac: 'Non-AC',
+          attachedBath: true,
+          balcony: true,
+          gender: 'Girls',
+          image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80',
+          occupants: []
+        },
+        {
+          id: 'PN-401',
+          name: 'Velvet Peach Twin Deluxe',
+          category: 'Double Sharing',
+          location: 'Indiranagar',
+          rent: 14500,
+          totalBeds: 2,
+          availableBeds: 0,
+          size: '240 sq.ft',
+          ac: 'AC',
+          attachedBath: true,
+          balcony: true,
+          gender: 'Co-Living',
+          image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=900&q=80',
+          occupants: ['Sneha Rao', 'Kabir Das']
+        }
+      ],
+      bookings: [
+        {
+          id: 'BK-2026-901',
+          roomId: 'PN-201',
+          roomName: 'Peach Blossom Twin Studio',
+          applicantName: 'Siddharth Nair',
+          email: 'siddharth@example.com',
+          phone: '+91 98450 11223',
+          org: 'Infosys Finacle',
+          checkIn: '2026-12-01',
+          foodPlan: true,
+          totalAmount: 31000,
+          status: 'Pending',
+          createdAt: '2026-11-23'
+        }
+      ],
+      complaints: [
+        {
+          id: 'TKT-104',
+          name: 'Ananya Sharma',
+          room: 'PN-101',
+          category: 'Wi-Fi issues',
+          desc: 'Router on 1st floor east wing drops signal briefly around 10 PM.',
+          status: 'In Progress',
+          time: '2 hours ago'
+        },
+        {
+          id: 'TKT-103',
+          name: 'Rohan Verma',
+          room: 'PN-204',
+          category: 'Water problems',
+          desc: 'Solar hot water pressure in bathroom tap needs valve check.',
+          status: 'Pending',
+          time: '5 hours ago'
+        },
+        {
+          id: 'TKT-102',
+          name: 'Sneha Rao',
+          room: 'PN-401',
+          category: 'Room cleaning',
+          desc: 'Requested deep balcony glass cleaning before weekend.',
+          status: 'Resolved',
+          time: 'Yesterday'
+        }
+      ],
+      notices: [
+        {
+          id: 'N-1',
+          title: 'Monthly Community Rooftop Acoustic Night & Dinner',
+          body: 'Join us this Saturday at 7:30 PM on the Madhapur Sky Lounge for live music, mocktails, and wood-fired snacks.',
+          date: 'Nov 23, 2026',
+          tag: 'Event'
+        },
+        {
+          id: 'N-2',
+          title: 'High-Speed 500 Mbps Fiber Upgrade Completed',
+          body: 'All floors now feature Wi-Fi 6 mesh access points. Reconnect using your resident portal credentials.',
+          date: 'Nov 21, 2026',
+          tag: 'Facility Update'
+        },
+        {
+          id: 'N-3',
+          title: 'Rent Cycle & Winter Blanket Distribution',
+          body: 'Complimentary sanitized comforters are available at the housekeeping desk from 4 PM to 8 PM daily.',
+          date: 'Nov 19, 2026',
+          tag: 'Notice'
+        }
+      ],
+      visitors: [
+        {
+          id: 'V-1',
+          name: 'Mr. Suresh Mehta (Father)',
+          phone: '+91 98220 44551',
+          checkIn: '10:30 AM',
+          checkOut: '01:15 PM',
+          status: 'Checked Out'
+        },
+        {
+          id: 'V-2',
+          name: 'Karthik Reddy (Project Mate)',
+          phone: '+91 97001 88321',
+          checkIn: '05:10 PM',
+          checkOut: null,
+          status: 'Inside Lounge'
+        }
+      ],
+      leaves: [
+        {
+          id: 'L-1',
+          resident: 'Aarav Mehta (PN-201)',
+          from: '2026-11-28',
+          to: '2026-11-30',
+          reason: 'Attending cousin wedding in Pune',
+          status: 'Approved'
+        }
+      ],
+      foodFeedbacks: [
+        { author: 'Ananya (PN-101)', meal: 'Breakfast', stars: 5, comment: 'Crispy masala dosa & fresh coconut chutney!' },
+        { author: 'Aarav (PN-201)', meal: 'Dinner', stars: 5, comment: 'Paneer butter masala felt just like home.' }
+      ]
+    };
+
+    // Load or initialize state safely
+    let appState = loadState();
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          return { ...DEFAULT_STATE, ...JSON.parse(raw) };
+        }
+      } catch (e) {
+        console.warn('State storage fallback active:', e);
+      }
+      return JSON.parse(JSON.stringify(DEFAULT_STATE));
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.warn('Could not persist to localStorage:', e);
+      }
+      syncAllViews();
+    }
+
+    // =========================================================================
+    // 2. STATIC CATALOG DATA (FACILITIES, WEEKLY FOOD MENU, RULES, ROOMMATES)
+    // =========================================================================
+    const FACILITIES_DATA = [
+      { icon: 'wifi', title: 'Free 500 Mbps Wi-Fi', desc: 'Enterprise Wi-Fi 6 mesh on every floor for uninterrupted WFH & study.' },
+      { icon: 'cctv', title: '24/7 CCTV Security', desc: 'AI-monitored corridors, biometric turnstiles & female security guards.' },
+      { icon: 'washing-machine', title: 'Washing Machine', desc: 'Complimentary front-load automatic washers & sunlit drying decks.' },
+      { icon: 'sparkles', title: 'Daily Housekeeping', desc: 'Hotel-grade room sanitization, linen change & spotless washrooms.' },
+      { icon: 'droplets', title: 'RO Drinking Water', desc: '7-stage UV+RO chilled & ambient water dispensers on every floor.' },
+      { icon: 'zap', title: '100% Power Backup', desc: 'Silent acoustic DG backup for lights, fans, Wi-Fi & study sockets.' },
+      { icon: 'lamp-desk', title: 'Study Tables & Chairs', desc: 'Ergonomic cushioned chairs, wide oak desks & personal task lamps.' },
+      { icon: 'door-closed', title: 'Spacious Wardrobes', desc: 'Full-height lockable wooden wardrobes with mirror & luggage loft.' },
+      { icon: 'flame', title: '24/7 Solar Hot Water', desc: 'Instant pressurized hot water in all attached bathrooms.' },
+      { icon: 'bike', title: 'Covered Parking', desc: 'Secure basement parking for two-wheelers & bicycles with CCTV.' },
+      { icon: 'sofa', title: 'Common Lounge', desc: 'Cozy peach-toned lounge with smart TV, board games & bean bags.' },
+      { icon: 'dumbbell', title: 'Gym & Recreation', desc: 'Cardio zone, free weights, yoga mats & indoor table tennis.' }
+    ];
+
+    const WEEKLY_MENU = {
+      Monday: [
+        { meal: 'Breakfast', time: '07:30 – 09:30 AM', veg: 'Idli, Medu Vada, Sambar & Chutney', nonVeg: 'Boiled Eggs & Masala Omelette', img: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Lunch', time: '12:30 – 02:30 PM', veg: 'Phulka, Dal Tadka, Aloo Gobi, Jeera Rice & Curd', nonVeg: 'Homestyle Egg Curry Option', img: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Evening Snacks', time: '05:00 – 06:15 PM', veg: 'Samosa, Mint Chutney & Ginger Chai / Coffee', nonVeg: 'Veg & Herb Cutlets', img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Dinner', time: '08:00 – 10:00 PM', veg: 'Chapati, Palak Paneer, Steamed Rice & Tomato Rasam', nonVeg: 'Pepper Chicken Roast (Optional)', img: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=600&q=80' }
+      ],
+      Tuesday: [
+        { meal: 'Breakfast', time: '07:30 – 09:30 AM', veg: 'Aloo Paratha, Fresh Curd & Pickle', nonVeg: 'Scrambled Eggs & Whole Wheat Toast', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Lunch', time: '12:30 – 02:30 PM', veg: 'Rajma Masala, Steamed Basmati Rice, Boondi Raita & Salad', nonVeg: 'Grilled Herb Chicken Breast', img: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Evening Snacks', time: '05:00 – 06:15 PM', veg: 'Sweet Corn Chaat & Filter Coffee', nonVeg: 'Paneer Pakora', img: 'https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Dinner', time: '08:00 – 10:00 PM', veg: 'Phulka, Bhindi Fry, Yellow Dal & Fruit Custard', nonVeg: 'Andhra Chicken Curry', img: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=600&q=80' }
+      ],
+      Wednesday: [
+        { meal: 'Breakfast', time: '07:30 – 09:30 AM', veg: 'Crispy Masala Dosa & Peanut Chutney', nonVeg: 'Sunny Side Up Eggs & Milk', img: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Lunch', time: '12:30 – 02:30 PM', veg: 'Kadai Vegetable, Dal Fry, Rotis & Lemon Rice', nonVeg: 'Chicken Chettinad Gravy', img: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Evening Snacks', time: '05:00 – 06:15 PM', veg: 'Vada Pav & Masala Chai', nonVeg: 'Baked Banana Chips & Tea', img: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Dinner', time: '08:00 – 10:00 PM', veg: 'Paneer Butter Masala, Butter Roti & Pulao', nonVeg: 'Butter Chicken Masala', img: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=600&q=80' }
+      ],
+      Thursday: [
+        { meal: 'Breakfast', time: '07:30 – 09:30 AM', veg: 'Poha with Pomegranate, Sev & Jalebi', nonVeg: 'Boiled Eggs & Sprouts Salad', img: 'https://images.unsplash.com/photo-1645177628172-a94c1f96e6db?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Lunch', time: '12:30 – 02:30 PM', veg: 'Chole Bhature / Kulcha, Mint Raita & Rice', nonVeg: 'Egg Bhurji Masala', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Evening Snacks', time: '05:00 – 06:15 PM', veg: 'Veg Sandwich & Lemon Iced Tea', nonVeg: 'Grilled Cheese Toast', img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Dinner', time: '08:00 – 10:00 PM', veg: 'Veg Hakka Noodles, Manchurian & Clear Soup', nonVeg: 'Chilli Chicken & Fried Rice', img: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=600&q=80' }
+      ],
+      Friday: [
+        { meal: 'Breakfast', time: '07:30 – 09:30 AM', veg: 'Rava Upma, Coconut Chutney & Banana', nonVeg: 'Omelette & Brown Bread', img: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Lunch', time: '12:30 – 02:30 PM', veg: 'Dal Makhani, Jeera Aloo, Chapati & Curd Rice', nonVeg: 'Fish Curry / Chicken Fry', img: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Evening Snacks', time: '05:00 – 06:15 PM', veg: 'Bhel Puri & Elaichi Chai', nonVeg: 'Sprouts Chaat', img: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Dinner', time: '08:00 – 10:00 PM', veg: 'Malai Kofta, Naan/Roti, Dal & Kheer', nonVeg: 'Mughlai Chicken Korma', img: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=600&q=80' }
+      ],
+      Saturday: [
+        { meal: 'Breakfast', time: '08:00 – 10:00 AM', veg: 'Poori Bhaji & Sweet Halwa', nonVeg: 'Cheese Omelette & Juice', img: 'https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Lunch', time: '12:30 – 02:30 PM', veg: 'Paneer Tikka Pulao, Dal Tadka & Papad', nonVeg: 'Chicken Tikka Pulao', img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Evening Snacks', time: '05:00 – 06:30 PM', veg: 'Pav Bhaji & Cold Coffee', nonVeg: 'French Fries & Dip', img: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Dinner', time: '08:00 – 10:00 PM', veg: 'Stuffed Capsicum, Phulka, Dal & Ice Cream', nonVeg: 'Kadai Chicken & Roti', img: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=600&q=80' }
+      ],
+      Sunday: [
+        { meal: 'Breakfast', time: '08:30 – 10:30 AM', veg: 'Chole Kulche, Lassi & Fresh Fruits', nonVeg: 'French Toast & Eggs', img: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Lunch', time: '01:00 – 03:00 PM', veg: 'Hyderabadi Paneer Dum Biryani, Salan & Raita', nonVeg: 'Royal Chicken Dum Biryani', img: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Evening Snacks', time: '05:30 – 06:30 PM', veg: 'Cookies, Cake Slice & Masala Tea', nonVeg: 'Veg Puff & Coffee', img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80' },
+        { meal: 'Dinner', time: '08:00 – 10:00 PM', veg: 'Light Khichdi, Kadhi, Papad & Gulab Jamun', nonVeg: 'Homestyle Egg Masala & Roti', img: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=600&q=80' }
+      ]
+    };
+
+    const RULES_DATA = [
+      { icon: 'clock', title: 'Entry & Exit Timings', desc: '24/7 QR biometric access for working professionals. Late-night check-in after 11:00 PM logs an automatic timestamp.' },
+      { icon: 'users', title: 'Visitor Policy', desc: 'Visitors are welcome in the Common Lounge between 9:00 AM and 8:00 PM with valid ID registration. No overnight guests in rooms.' },
+      { icon: 'sparkles', title: 'Cleanliness & Hygiene', desc: 'Keep personal desks tidy for daily housekeeping. Wet waste and dry waste must be separated in corridor bins.' },
+      { icon: 'utensils', title: 'Dining Hall Timings', desc: 'Meals are served fresh during scheduled windows. Inform the kitchen app 3 hours prior if skipping meals to reduce waste.' },
+      { icon: 'volume-x', title: 'Quiet Study Hours', desc: 'Maintain strict silence in corridors and rooms between 10:30 PM and 7:00 AM so everyone can rest and study peacefully.' },
+      { icon: 'calendar-clock', title: 'Rent Payment Deadlines', desc: 'Monthly rent is due between the 1st and 5th of every month via the Resident Dashboard or UPI auto-debit.' },
+      { icon: 'shield-check', title: 'Safety & Prohibited Items', desc: 'Smoking, alcohol, induction stoves, and high-wattage heaters are strictly prohibited inside bedrooms for fire safety.' },
+      { icon: 'file-check-2', title: 'Leave Permission Process', desc: 'Apply online via the Leave Request System at least 12 hours before overnight travel so Warden & Parent Connect stay informed.' }
+    ];
+
+    const ROOMMATE_PROFILES = [
+      { name: 'Rohan Kulkarni', role: 'Data Analyst @ Deloitte', roomPref: 'Double Sharing AC', habit: 'Early Bird', diet: 'Vegetarian', match: 96, tags: ['Early Riser', 'Neat & Tidy', 'Non-Smoker'] },
+      { name: 'Siddharth Rao', role: 'M.Tech @ IIIT-H', roomPref: 'Double Sharing AC', habit: 'Night Owl', diet: 'Non-Veg', match: 89, tags: ['Quiet Coder', 'Gym Enthusiast', 'Headphones Always'] },
+      { name: 'Pranav Joshi', role: 'Product Designer', roomPref: 'Double Sharing AC', habit: 'Early Bird', diet: 'Vegetarian', match: 94, tags: ['Pure Veg', 'Minimalist', 'Weekend Traveler'] },
+      { name: 'Aditya Menon', role: 'FinTech Consultant', roomPref: 'Triple Sharing', habit: 'Night Owl', diet: 'Non-Veg', match: 85, tags: ['Friendly', 'Chess Player', 'Clean Desk'] }
+    ];
+
+    // =========================================================================
+    // 3. UI & NAVIGATION HELPERS
+    // =========================================================================
+    function showToast(title, message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      const colors = {
+        success: 'bg-peach-dark text-white border-peach-primary',
+        warning: 'bg-amber-900 text-amber-50 border-amber-400',
+        danger: 'bg-red-700 text-white border-red-300'
+      };
+      toast.className = `pointer-events-auto rounded-2xl p-4 border shadow-warm-lg transition-all transform translate-y-0 ${colors[type] || colors.success}`;
+      toast.innerHTML = `
+        <div class="flex items-start justify-between gap-3">
+          <div>
+            <div class="text-xs font-extrabold uppercase tracking-wider text-peach-primary">${title}</div>
+            <div class="text-xs mt-1 leading-relaxed opacity-95">${message}</div>
+          </div>
+          <button onclick="this.parentElement.parentElement.remove()" class="text-white/70 hover:text-white">✕</button>
+        </div>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        if (toast.parentElement) toast.remove();
+      }, 5000);
+    }
+
+    function switchView(viewName, sectionId = null) {
+      appState.currentView = viewName;
+      ['public', 'resident', 'parent', 'admin'].forEach(v => {
+        const el = document.getElementById(`view-${v}`);
+        if (el) el.classList.toggle('hidden', v !== viewName);
+
+        const pill = document.getElementById(`pill-${v}`);
+        if (pill) {
+          if (v === viewName) {
+            pill.className = 'portal-pill px-3 py-1 rounded-full font-semibold transition-all bg-peach-dark text-white';
+          } else {
+            pill.className = 'portal-pill px-3 py-1 rounded-full font-semibold transition-all bg-white text-peach-dark border border-peach-border hover:bg-peach-primary/40';
+          }
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (sectionId && viewName === 'public') {
+        setTimeout(() => scrollToSection(sectionId), 100);
+      }
+      syncAllViews();
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    function openInfoModal(title, body) {
+      document.getElementById('info-modal-title').textContent = title;
+      document.getElementById('info-modal-body').textContent = body;
+      document.getElementById('modal-info').classList.remove('hidden');
+    }
+
+    // =========================================================================
+    // 4. PUBLIC SITE RENDERING: ROOMS, FACILITIES, FOOD, RULES, COMPLAINTS
+    // =========================================================================
+    function handleHeroSearch(e) {
+      e.preventDefault();
+      const loc = document.getElementById('hero-location').value;
+      const budget = document.getElementById('hero-budget').value;
+      const type = document.getElementById('hero-type').value;
+      const avail = document.getElementById('hero-avail').value;
+
+      document.getElementById('filter-room-type').value = type;
+      document.getElementById('filter-rent').value = budget;
+      document.getElementById('filter-rent-label').textContent = '₹' + Number(budget).toLocaleString('en-IN') + '/mo';
+      document.getElementById('filter-available-only').checked = (avail === 'available');
+
+      renderRooms(loc);
+      scrollToSection('rooms');
+      showToast('Filters Applied', `Showing rooms matching your preferences${loc !== 'all' ? ' in ' + loc : ''}.`);
+    }
+
+    function resetRoomFilters() {
+      document.getElementById('filter-room-type').value = 'all';
+      document.getElementById('filter-gender').value = 'all';
+      document.getElementById('filter-ac').value = 'all';
+      document.getElementById('filter-rent').value = 25000;
+      document.getElementById('filter-rent-label').textContent = '₹25,000/mo';
+      document.getElementById('filter-available-only').checked = false;
+      renderRooms('all');
+    }
+
+    function renderRooms(locationOverride = null) {
+      const grid = document.getElementById('rooms-grid');
+      const typeFilter = document.getElementById('filter-room-type').value;
+      const genderFilter = document.getElementById('filter-gender').value;
+      const acFilter = document.getElementById('filter-ac').value;
+      const maxRent = Number(document.getElementById('filter-rent').value);
+      const availOnly = document.getElementById('filter-available-only').checked;
+
+      const filtered = appState.rooms.filter(room => {
+        if (locationOverride && locationOverride !== 'all' && room.location !== locationOverride) return false;
+        if (typeFilter !== 'all') {
+          if (typeFilter === 'Premium AC' && room.category !== 'Premium AC' && room.ac !== 'AC') return false;
+          else if (typeFilter === 'Non-AC' && room.ac !== 'Non-AC') return false;
+          else if (['Single Sharing', 'Double Sharing', 'Triple Sharing'].includes(typeFilter) && room.category !== typeFilter) return false;
+        }
+        if (genderFilter !== 'all' && room.gender !== genderFilter) return false;
+        if (acFilter !== 'all' && room.ac !== acFilter) return false;
+        if (room.rent > maxRent) return false;
+        if (availOnly && room.availableBeds <= 0) return false;
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full bg-peach-secondary rounded-3xl p-12 text-center border border-peach-border space-y-3">
+            <div class="text-lg font-extrabold text-peach-dark">No rooms match your exact filter criteria</div>
+            <p class="text-xs text-peach-muted">Try adjusting your max rent slider or resetting filters to explore all available wings.</p>
+            <button onclick="resetRoomFilters()" class="px-5 py-2.5 rounded-xl bg-peach-dark text-white text-xs font-bold">Reset All Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(room => {
+        const isFull = room.availableBeds <= 0;
+        const badgeClass = isFull
+          ? 'bg-red-100 text-red-800 border-red-200'
+          : 'bg-emerald-50 text-emerald-800 border-emerald-200';
+        const badgeText = isFull
+          ? 'Fully Occupied'
+          : `${room.availableBeds} of ${room.totalBeds} Bed${room.totalBeds > 1 ? 's' : ''} Available`;
+
+        return `
+          <article class="bg-white rounded-3xl overflow-hidden border border-peach-border shadow-warm card-hover flex flex-col justify-between">
+            <div>
+              <div class="relative h-56 overflow-hidden">
+                <img src="${room.image}" onerror="this.src='https://placehold.co/800x500/FFF4EA/49352E?text=${encodeURIComponent(room.name)}'" alt="${room.name}" class="w-full h-full object-cover" />
+                <div class="absolute top-3.5 left-3.5 flex flex-wrap gap-1.5">
+                  <span class="px-3 py-1 rounded-full text-[11px] font-extrabold border backdrop-blur-md ${badgeClass}">${badgeText}</span>
+                  <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-peach-dark/85 text-peach-primary">${room.gender}</span>
+                </div>
+                <div class="absolute bottom-3 left-3.5 px-3 py-1 rounded-xl bg-white/95 text-peach-dark text-xs font-bold shadow">
+                  ${room.id} • ${room.location}
+                </div>
+              </div>
+
+              <div class="p-6 space-y-4">
+                <div class="flex items-start justify-between gap-2">
+                  <div>
+                    <span class="text-[11px] font-extrabold uppercase tracking-wider text-peach-accent">${room.category}</span>
+                    <h3 class="text-lg font-extrabold text-peach-dark mt-0.5">${room.name}</h3>
+                  </div>
+                  <div class="text-right shrink-0">
+                    <div class="text-xl font-extrabold text-peach-dark">₹${room.rent.toLocaleString('en-IN')}</div>
+                    <div class="text-[11px] text-peach-muted">per month</div>
+                  </div>
+                </div>
+
+                <!-- Feature Pills -->
+                <div class="flex flex-wrap gap-2 text-[11px] font-semibold text-peach-dark">
+                  <span class="px-2.5 py-1 rounded-lg bg-peach-secondary border border-peach-border">${room.size}</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-peach-secondary border border-peach-border">${room.ac}</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-peach-secondary border border-peach-border">${room.attachedBath ? 'Attached Bath' : 'Shared Bath'}</span>
+                  <span class="px-2.5 py-1 rounded-lg bg-peach-secondary border border-peach-border">${room.balcony ? 'Private Balcony' : 'Window View'}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="px-6 pb-6 pt-2 flex items-center gap-3">
+              <button onclick="openRoomDetailsModal('${room.id}')" class="flex-1 py-3 px-4 rounded-xl bg-peach-secondary hover:bg-peach-primary/50 text-peach-dark font-bold text-xs border border-peach-border transition-colors">
+                View Details
+              </button>
+              <button onclick="openBookingModal('${room.id}')" ${isFull ? 'disabled' : ''} class="flex-1 py-3 px-4 rounded-xl font-extrabold text-xs transition-all ${isFull ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-peach-primary to-peach-accent text-peach-dark shadow-peach-glow hover:scale-[1.02]'}">
+                ${isFull ? 'Waitlist Full' : 'Book Now'}
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function openRoomDetailsModal(roomId) {
+      const room = appState.rooms.find(r => r.id === roomId);
+      if (!room) return;
+
+      // Build interactive Smart Bed Map slots
+      let bedSlotsHtml = '';
+      for (let i = 0; i < room.totalBeds; i++) {
+        const occupiedCount = room.totalBeds - room.availableBeds;
+        const isOccupied = i < occupiedCount;
+        const occupantName = room.occupants[i] || (isOccupied ? 'Verified Resident' : 'Ready for Move-In');
+        bedSlotsHtml += `
+          <div class="p-3.5 rounded-2xl border ${isOccupied ? 'bg-red-50/70 border-red-200' : 'bg-emerald-50/80 border-emerald-200'} flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <div class="w-8 h-8 rounded-xl ${isOccupied ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'} flex items-center justify-center font-extrabold text-xs">
+                B${i + 1}
+              </div>
+              <div>
+                <div class="text-xs font-extrabold text-peach-dark">Bed #${i + 1}</div>
+                <div class="text-[11px] text-peach-muted">${occupantName}</div>
+              </div>
+            </div>
+            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${isOccupied ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-800'}">
+              ${isOccupied ? 'Occupied' : 'Available'}
+            </span>
+          </div>
+        `;
+      }
+
+      document.getElementById('room-details-content').innerHTML = `
+        <div class="space-y-5">
+          <img src="${room.image}" alt="${room.name}" class="w-full h-56 object-cover rounded-2xl" />
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <span class="text-xs font-bold uppercase text-peach-accent">${room.category} • ${room.location}</span>
+              <h3 class="text-2xl font-extrabold text-peach-dark">${room.name} (${room.id})</h3>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-extrabold text-peach-dark">₹${room.rent.toLocaleString('en-IN')}<span class="text-xs font-normal text-peach-muted">/mo</span></div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div class="p-3 rounded-xl bg-peach-secondary"><strong>Size:</strong> ${room.size}</div>
+            <div class="p-3 rounded-xl bg-peach-secondary"><strong>Climate:</strong> ${room.ac}</div>
+            <div class="p-3 rounded-xl bg-peach-secondary"><strong>Bath:</strong> ${room.attachedBath ? 'Attached' : 'Common'}</div>
+            <div class="p-3 rounded-xl bg-peach-secondary"><strong>Balcony:</strong> ${room.balcony ? 'Yes' : 'No'}</div>
+          </div>
+
+          <div>
+            <h4 class="text-xs font-extrabold uppercase tracking-wider text-peach-dark mb-2.5">Smart Bed Availability Tracker (Live Map)</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">${bedSlotsHtml}</div>
+          </div>
+
+          <div class="flex justify-end gap-3 pt-2">
+            <button onclick="closeModal('modal-room-details')" class="px-5 py-2.5 rounded-xl bg-peach-secondary text-peach-dark font-bold text-xs">Close</button>
+            ${room.availableBeds > 0 ? `<button onclick="closeModal('modal-room-details'); openBookingModal('${room.id}')" class="px-6 py-2.5 rounded-xl bg-peach-dark text-white font-bold text-xs hover:bg-peach-accent hover:text-peach-dark">Proceed to Book Bed</button>` : ''}
+          </div>
+        </div>
+      `;
+      document.getElementById('modal-room-details').classList.remove('hidden');
+    }
+
+    function renderFacilities() {
+      const grid = document.getElementById('facilities-grid');
+      grid.innerHTML = FACILITIES_DATA.map(f => `
+        <div class="bg-white rounded-2xl p-5 border border-peach-border shadow-warm card-hover space-y-3">
+          <div class="w-11 h-11 rounded-2xl bg-peach-secondary flex items-center justify-center text-peach-accent">
+            <i data-lucide="${f.icon}" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-base font-extrabold text-peach-dark">${f.title}</h3>
+          <p class="text-xs text-peach-muted leading-relaxed">${f.desc}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderFoodSection() {
+      const days = Object.keys(WEEKLY_MENU);
+      const tabsEl = document.getElementById('food-day-tabs');
+      tabsEl.innerHTML = days.map(day => {
+        const active = day === appState.selectedFoodDay;
+        return `
+          <button onclick="selectFoodDay('${day}')" class="px-5 py-2.5 rounded-2xl text-xs font-extrabold transition-all shrink-0 ${active ? 'bg-peach-dark text-white shadow-warm' : 'bg-peach-secondary text-peach-dark hover:bg-peach-primary/40 border border-peach-border'}">
+            ${day} ${day === 'Sunday' ? '★' : ''}
+          </button>
+        `;
+      }).join('');
+
+      const meals = WEEKLY_MENU[appState.selectedFoodDay] || WEEKLY_MENU.Monday;
+      const mealsGrid = document.getElementById('food-meals-grid');
+      mealsGrid.innerHTML = meals.map(m => `
+        <div class="bg-white rounded-3xl overflow-hidden border border-peach-border shadow-warm card-hover flex flex-col justify-between">
+          <div>
+            <div class="relative h-40">
+              <img src="${m.img}" onerror="this.src='https://placehold.co/600x400/FFF4EA/49352E?text=${encodeURIComponent(m.meal)}'" alt="${m.meal}" class="w-full h-full object-cover" />
+              <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-peach-dark/85 text-peach-primary text-[11px] font-bold">${m.meal}</span>
+            </div>
+            <div class="p-5 space-y-3">
+              <div class="text-[11px] font-bold text-peach-muted flex items-center gap-1.5">
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-peach-accent"></i>
+                <span>${m.time}</span>
+              </div>
+              <div class="space-y-2 text-xs">
+                <div class="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200">
+                  <span class="font-extrabold text-emerald-800 block mb-0.5">● Pure Veg Menu</span>
+                  <span class="text-peach-dark">${m.veg}</span>
+                </div>
+                <div class="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200">
+                  <span class="font-extrabold text-amber-900 block mb-0.5">▲ Non-Veg Option</span>
+                  <span class="text-peach-dark">${m.nonVeg}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Render recent food reviews
+      const revBox = document.getElementById('recent-food-reviews');
+      revBox.innerHTML = appState.foodFeedbacks.slice(0, 4).map(r => `
+        <span class="text-[11px] bg-peach-secondary px-3 py-1 rounded-full text-peach-dark border border-peach-border">
+          <strong>${r.author}</strong> (${r.meal} ${'★'.repeat(r.stars)}): "${r.comment}"
+        </span>
+      `).join('');
+    }
+
+    function selectFoodDay(day) {
+      appState.selectedFoodDay = day;
+      renderFoodSection();
+      lucide.createIcons();
+    }
+
+    function submitFoodFeedback(e) {
+      e.preventDefault();
+      const meal = document.getElementById('fb-meal').value;
+      const stars = Number(document.getElementById('fb-stars').value);
+      const author = document.getElementById('fb-author').value.trim();
+      const comment = document.getElementById('fb-comment').value.trim();
+
+      appState.foodFeedbacks.unshift({ author, meal, stars, comment });
+      document.getElementById('fb-comment').value = '';
+      saveState();
+      showToast('Meal Feedback Recorded', 'Thank you! Your rating has been shared with the kitchen team.');
+    }
+
+    function renderRules() {
+      const grid = document.getElementById('rules-grid');
+      grid.innerHTML = RULES_DATA.map(r => `
+        <div class="bg-white rounded-3xl p-6 border border-peach-border shadow-warm space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-peach-secondary flex items-center justify-center text-peach-accent">
+            <i data-lucide="${r.icon}" class="w-5 h-5"></i>
+          </div>
+          <h3 class="text-base font-extrabold text-peach-dark">${r.title}</h3>
+          <p class="text-xs text-peach-muted leading-relaxed">${r.desc}</p>
+        </div>
+      `).join('');
+    }
+
+    // =========================================================================
+    // 5. ONLINE BOOKING FLOW & TRACKER (NO FAKE INSTANT CONFIRMATIONS)
+    // =========================================================================
+    function openBookingModal(preselectRoomId = null) {
+      const select = document.getElementById('book-room-select');
+      const availRooms = appState.rooms.filter(r => r.availableBeds > 0);
+      if (availRooms.length === 0) {
+        showToast('All Beds Occupied', 'Currently all rooms are full. Please check back soon or contact support.', 'warning');
+        return;
+      }
+
+      select.innerHTML = availRooms.map(r => `
+        <option value="${r.id}" ${r.id === preselectRoomId ? 'selected' : ''}>
+          ${r.id} - ${r.name} (₹${r.rent.toLocaleString('en-IN')}/mo • ${r.availableBeds} bed left)
+        </option>
+      `).join('');
+
+      // Set min check-in date to tomorrow
+      const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+      const dateInput = document.getElementById('book-checkin');
+      dateInput.min = tomorrow;
+      if (!dateInput.value) dateInput.value = tomorrow;
+
+      updateBookingSummary();
+      document.getElementById('modal-booking').classList.remove('hidden');
+    }
+
+    function updateBookingSummary() {
+      const roomId = document.getElementById('book-room-select').value;
+      const room = appState.rooms.find(r => r.id === roomId) || appState.rooms[0];
+      const includeFood = document.getElementById('book-food-plan').checked;
+
+      const rent = room ? room.rent : 12500;
+      const food = includeFood ? 3500 : 0;
+      const deposit = 15000;
+      const total = rent + food + deposit;
+
+      document.getElementById('book-sum-rent').textContent = '₹' + rent.toLocaleString('en-IN');
+      document.getElementById('book-sum-food').textContent = '₹' + food.toLocaleString('en-IN');
+      document.getElementById('book-sum-deposit').textContent = '₹' + deposit.toLocaleString('en-IN');
+      document.getElementById('book-sum-total').textContent = '₹' + total.toLocaleString('en-IN');
+    }
+
+    function submitRoomBooking(e) {
+      e.preventDefault();
+      const roomId = document.getElementById('book-room-select').value;
+      const room = appState.rooms.find(r => r.id === roomId);
+      if (!room || room.availableBeds <= 0) {
+        showToast('Room Unavailable', 'Selected room has no available beds.', 'danger');
+        return;
+      }
+
+      const includeFood = document.getElementById('book-food-plan').checked;
+      const totalAmount = room.rent + (includeFood ? 3500 : 0) + 15000;
+      const bookingId = 'BK-2026-' + Math.floor(100 + Math.random() * 900);
+
+      const newBooking = {
+        id: bookingId,
+        roomId: room.id,
+        roomName: room.name,
+        applicantName: document.getElementById('book-name').value.trim(),
+        email: document.getElementById('book-email').value.trim(),
+        phone: document.getElementById('book-phone').value.trim(),
+        org: document.getElementById('book-org').value.trim(),
+        checkIn: document.getElementById('book-checkin').value,
+        foodPlan: includeFood,
+        totalAmount,
+        status: 'Pending',
+        createdAt: new Date().toISOString().split('T')[0]
+      };
+
+      appState.bookings.unshift(newBooking);
+      document.getElementById('booking-form').reset();
+      closeModal('modal-booking');
+      saveState();
+
+      showToast(
+        'Booking Request Submitted (Pending Verification)',
+        `Reference ID: ${bookingId}. Your application is queued in the Admin Dashboard for ID verification.`
+      );
+      openBookingTrackerModal();
+    }
+
+    function openBookingTrackerModal() {
+      const list = document.getElementById('tracker-bookings-list');
+      if (appState.bookings.length === 0) {
+        list.innerHTML = `<div class="p-6 text-center text-xs text-peach-muted bg-peach-secondary rounded-2xl">No bookings recorded yet. Click "Book Your Stay" to submit a request.</div>`;
+      } else {
+        list.innerHTML = appState.bookings.map(b => {
+          const badge = b.status === 'Confirmed'
+            ? 'bg-emerald-100 text-emerald-800'
+            : b.status === 'Cancelled'
+              ? 'bg-red-100 text-red-800'
+              : 'bg-amber-100 text-amber-800';
+          return `
+            <div class="p-4 rounded-2xl bg-white border border-peach-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-extrabold text-peach-dark">${b.id}</span>
+                  <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${badge}">${b.status}</span>
+                </div>
+                <div class="text-sm font-bold text-peach-dark mt-1">${b.applicantName} • ${b.roomName} (${b.roomId})</div>
+                <div class="text-xs text-peach-muted">Move-In: ${b.checkIn} • Est. Total: ₹${b.totalAmount.toLocaleString('en-IN')}</div>
+              </div>
+              ${b.status === 'Pending' ? `<button onclick="cancelUserBooking('${b.id}')" class="px-3 py-1.5 rounded-xl bg-red-50 text-red-700 text-xs font-bold hover:bg-red-100 self-start sm:self-center">Cancel Request</button>` : ''}
+            </div>
+          `;
+        }).join('');
+      }
+      document.getElementById('modal-tracker').classList.remove('hidden');
+    }
+
+    function cancelUserBooking(id) {
+      const b = appState.bookings.find(item => item.id === id);
+      if (b && b.status === 'Pending') {
+        b.status = 'Cancelled';
+        saveState();
+        openBookingTrackerModal();
+        showToast('Booking Cancelled', `Application ${id} has been cancelled.`, 'warning');
+      }
+    }
+
+    // =========================================================================
+    // 6. COMPLAINTS, CONTACT & EMERGENCY SOS
+    // =========================================================================
+    function submitComplaint(e) {
+      e.preventDefault();
+      const ticket = {
+        id: 'TKT-' + Math.floor(105 + Math.random() * 890),
+        name: document.getElementById('comp-name').value.trim(),
+        room: document.getElementById('comp-room').value.trim(),
+        category: document.getElementById('comp-category').value,
+        desc: document.getElementById('comp-desc').value.trim(),
+        status: 'Pending',
+        time: 'Just now'
+      };
+      appState.complaints.unshift(ticket);
+      e.target.reset();
+      saveState();
+      showToast('Support Ticket Logged', `Ticket ${ticket.id} (${ticket.category}) is now visible to the Hostel Warden.`);
+    }
+
+    function renderComplaints() {
+      const list = document.getElementById('public-complaints-list');
+      const activeCount = appState.complaints.filter(c => c.status !== 'Resolved').length;
+      document.getElementById('public-complaint-count').textContent = `${activeCount} Active Ticket${activeCount !== 1 ? 's' : ''}`;
+
+      list.innerHTML = appState.complaints.map(c => {
+        const badge = c.status === 'Resolved'
+          ? 'bg-emerald-100 text-emerald-800'
+          : c.status === 'In Progress'
+            ? 'bg-blue-100 text-blue-800'
+            : 'bg-amber-100 text-amber-800';
+        return `
+          <div class="bg-white rounded-2xl p-4 border border-peach-border shadow-warm space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-xs font-extrabold text-peach-accent">${c.id} • ${c.category}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${badge}">${c.status}</span>
+            </div>
+            <p class="text-xs text-peach-dark leading-relaxed">${c.desc}</p>
+            <div class="text-[11px] text-peach-muted flex justify-between">
+              <span>Raised by <strong>${c.name}</strong> (${c.room})</span>
+              <span>${c.time}</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function submitContactForm(e) {
+      e.preventDefault();
+      const name = document.getElementById('contact-name').value.trim();
+      e.target.reset();
+      showToast('Inquiry Received', `Thank you ${name}! Our PeachNest admissions advisor will call you within 15 minutes.`);
+    }
+
+    function openSOSModal() {
+      document.getElementById('modal-sos').classList.remove('hidden');
+    }
+
+    function triggerEmergencySOS() {
+      appState.complaints.unshift({
+        id: 'SOS-' + Math.floor(100 + Math.random() * 900),
+        name: 'Resident Emergency Trigger',
+        room: 'PN-201 / Campus',
+        category: 'Security concerns',
+        desc: 'URGENT SOS BUTTON ACTIVATED — Immediate warden & security assistance requested!',
+        status: 'Pending',
+        time: 'EMERGENCY • JUST NOW'
+      });
+      closeModal('modal-sos');
+      saveState();
+      showToast('EMERGENCY SOS DISPATCHED', 'Chief Warden and Security Desk have been alerted immediately!', 'danger');
+    }
+
+    // =========================================================================
+    // 7. AUTHENTICATION & MULTI-PORTAL SYNC (RESIDENT, PARENT, ADMIN)
+    // =========================================================================
+    let selectedLoginRole = 'resident';
+
+    function openAuthModal() {
+      document.getElementById('modal-auth').classList.remove('hidden');
+    }
+
+    function selectAuthRole(role) {
+      selectedLoginRole = role;
+      ['resident', 'parent', 'admin'].forEach(r => {
+        const btn = document.getElementById(`auth-role-${r}`);
+        btn.className = r === role
+          ? 'py-2.5 px-2 rounded-xl bg-peach-dark text-white text-xs font-bold'
+          : 'py-2.5 px-2 rounded-xl bg-peach-secondary text-peach-dark text-xs font-bold';
+      });
+      const sampleEmails = {
+        resident: 'aarav.mehta@peachnestpg.in',
+        parent: 'suresh.mehta@guardian.in',
+        admin: 'warden.admin@peachnestpg.in'
+      };
+      document.getElementById('auth-email').value = sampleEmails[role];
+    }
+
+    function handleRoleLogin(e) {
+      e.preventDefault();
+      closeModal('modal-auth');
+      quickDemoLogin(selectedLoginRole);
+    }
+
+    function quickDemoLogin(role) {
+      appState.currentRole = role;
+      const headerControls = document.getElementById('auth-header-controls');
+      const labels = {
+        resident: 'Aarav (Resident)',
+        parent: 'Mr. Mehta (Parent)',
+        admin: 'Chief Warden (Admin)'
+      };
+      headerControls.innerHTML = `
+        <button onclick="switchView('${role}')" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-peach-primary/50 text-peach-dark text-xs font-extrabold border border-peach-primary">
+          <i data-lucide="user-check" class="w-4 h-4 text-peach-accent"></i>
+          <span>${labels[role]}</span>
+        </button>
+      `;
+      switchView(role);
+      showToast('Portal Activated', `Signed in as ${labels[role]}. All changes sync live across the platform.`);
+    }
+
+    // =========================================================================
+    // 8. RESIDENT DASHBOARD INTERACTIVE FEATURES
+    // =========================================================================
+    function renderResidentDashboard() {
+      // Dynamic SVG QR Code generator
+      const qrSvg = document.getElementById('resident-qr-svg');
+      if (qrSvg) {
+        let rects = `
+          <rect x="8" y="8" width="24" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="5"/>
+          <rect x="15" y="15" width="10" height="10" rx="2"/>
+          <rect x="68" y="8" width="24" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="5"/>
+          <rect x="75" y="15" width="10" height="10" rx="2"/>
+          <rect x="8" y="68" width="24" height="24" rx="4" fill="none" stroke="currentColor" stroke-width="5"/>
+          <rect x="15" y="75" width="10" height="10" rx="2"/>
+        `;
+        for (let r = 0; r < 7; r++) {
+          for (let c = 0; c < 7; c++) {
+            if (((r * 7 + c + appState.qrSeed) % 3) === 0) {
+              rects += `<rect x="${38 + c * 7}" y="${38 + r * 7}" width="5" height="5" rx="1"/>`;
+            }
+          }
+        }
+        qrSvg.innerHTML = rects;
+        document.getElementById('qr-resident-id').textContent = `ID: PN-RES-2026-${appState.qrSeed}`;
+      }
+
+      // Rent Status
+      if (appState.residentRentPaid) {
+        document.getElementById('rent-reminder-banner').className = 'rounded-2xl bg-emerald-50 border border-emerald-200 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4';
+        document.getElementById('res-rent-status-text').textContent = 'December 2026 Rent Payment (₹12,500) logged & verified with accounts desk.';
+        const btn = document.getElementById('res-pay-rent-btn');
+        btn.textContent = 'Payment Logged ✓';
+        btn.disabled = true;
+        btn.className = 'px-5 py-2.5 rounded-xl bg-emerald-700 text-white font-bold text-xs cursor-default shrink-0';
+      }
+
+      // Digital Notice Board
+      document.getElementById('notice-count-badge').textContent = `${appState.notices.length} Notices`;
+      document.getElementById('resident-notices-list').innerHTML = appState.notices.map(n => `
+        <div class="p-3.5 rounded-2xl bg-peach-secondary/80 border border-peach-border">
+          <div class="flex items-center justify-between gap-2 mb-1">
+            <span class="text-xs font-extrabold text-peach-dark">${n.title}</span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-peach-accent border border-peach-border shrink-0">${n.tag} • ${n.date}</span>
+          </div>
+          <p class="text-xs text-peach-muted leading-relaxed">${n.body}</p>
+        </div>
+      `).join('');
+
+      renderRoommateFinder();
+      updateExpenseCalc();
+
+      // Visitors
+      document.getElementById('resident-visitors-list').innerHTML = appState.visitors.map(v => `
+        <div class="p-3 rounded-xl bg-peach-secondary border border-peach-border flex items-center justify-between gap-2 text-xs">
+          <div>
+            <div class="font-bold text-peach-dark">${v.name}</div>
+            <div class="text-[11px] text-peach-muted">${v.phone} • In: ${v.checkIn} ${v.checkOut ? '• Out: ' + v.checkOut : ''}</div>
+          </div>
+          ${!v.checkOut
+            ? `<button onclick="checkoutVisitor('${v.id}')" class="px-3 py-1.5 rounded-lg bg-peach-dark text-white font-bold text-[11px]">Check Out</button>`
+            : `<span class="px-2.5 py-0.5 rounded-full bg-white text-peach-muted font-semibold text-[10px]">Checked Out</span>`
+          }
+        </div>
+      `).join('');
+
+      // Leaves
+      document.getElementById('resident-leaves-list').innerHTML = appState.leaves.map(l => `
+        <div class="p-3 rounded-xl bg-peach-secondary border border-peach-border flex items-center justify-between gap-2 text-xs">
+          <div>
+            <div class="font-bold text-peach-dark">${l.from} to ${l.to}</div>
+            <div class="text-[11px] text-peach-muted">${l.reason}</div>
+          </div>
+          <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${l.status === 'Approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${l.status}</span>
+        </div>
+      `).join('');
+    }
+
+    function regenerateQRToken() {
+      appState.qrSeed = Math.floor(1000 + Math.random() * 9000);
+      saveState();
+      showToast('Security Pass Refreshed', `New encrypted gate token #${appState.qrSeed} generated.`);
+    }
+
+    function recordResidentRentPayment() {
+      appState.residentRentPaid = true;
+      saveState();
+      showToast('Rent Payment Logged', 'Your December 2026 rent transfer has been recorded and synced with Parent Connect.');
+    }
+
+    function renderRoommateFinder() {
+      const filter = document.getElementById('rm-filter-habit').value;
+      const list = ROOMMATE_PROFILES.filter(p => filter === 'all' || p.habit === filter || p.diet === filter);
+      document.getElementById('roommate-list').innerHTML = list.map(p => `
+        <div class="p-4 rounded-2xl bg-peach-secondary/70 border border-peach-border space-y-2.5">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <div class="text-sm font-extrabold text-peach-dark">${p.name}</div>
+              <div class="text-[11px] text-peach-muted">${p.role}</div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-extrabold">${p.match}% Match</span>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            ${p.tags.map(t => `<span class="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-white text-peach-dark border border-peach-border">${t}</span>`).join('')}
+          </div>
+          <button onclick="showToast('Roommate Intro Sent', 'Connection request sent to ${p.name} via internal resident chat!')" class="w-full py-2 rounded-xl bg-white hover:bg-peach-primary/50 text-peach-dark font-bold text-xs border border-peach-border transition-colors">
+            Send Connect Request
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function updateExpenseCalc() {
+      const rent = Number(document.getElementById('calc-rent').value);
+      const food = document.getElementById('calc-food').checked ? 3500 : 0;
+      const units = Number(document.getElementById('calc-units').value);
+      const elec = units * 10;
+      const extra = Number(document.getElementById('calc-extra').value);
+      const total = rent + food + elec + extra;
+
+      document.getElementById('calc-rent-val').textContent = '₹' + rent.toLocaleString('en-IN');
+      document.getElementById('calc-units-label').textContent = units;
+      document.getElementById('calc-elec-val').textContent = '₹' + elec.toLocaleString('en-IN');
+      document.getElementById('calc-extra-val').textContent = '₹' + extra.toLocaleString('en-IN');
+      document.getElementById('calc-total').textContent = '₹' + total.toLocaleString('en-IN');
+    }
+
+    function addVisitorLog(e) {
+      e.preventDefault();
+      const name = document.getElementById('vis-name').value.trim();
+      const phone = document.getElementById('vis-phone').value.trim();
+      const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      appState.visitors.unshift({
+        id: 'V-' + Date.now(),
+        name,
+        phone,
+        checkIn: now,
+        checkOut: null,
+        status: 'Inside Lounge'
+      });
+      e.target.reset();
+      saveState();
+      showToast('Visitor Pass Issued', `${name} checked in at ${now}.`);
+    }
+
+    function checkoutVisitor(id) {
+      const v = appState.visitors.find(item => item.id === id);
+      if (v) {
+        v.checkOut = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        v.status = 'Checked Out';
+        saveState();
+        showToast('Visitor Checked Out', `${v.name} exit logged at ${v.checkOut}.`);
+      }
+    }
+
+    function submitLeaveRequest(e) {
+      e.preventDefault();
+      const from = document.getElementById('leave-from').value;
+      const to = document.getElementById('leave-to').value;
+      const reason = document.getElementById('leave-reason').value.trim();
+
+      appState.leaves.unshift({
+        id: 'L-' + Date.now(),
+        resident: 'Aarav Mehta (PN-201)',
+        from,
+        to,
+        reason,
+        status: 'Pending Warden Approval'
+      });
+      e.target.reset();
+      saveState();
+      showToast('Leave Application Sent', 'Notified Hostel Warden and Parent Connect Portal.');
+    }
+
+    // =========================================================================
+    // 9. PARENT CONNECT PORTAL RENDERING
+    // =========================================================================
+    function renderParentPortal() {
+      const feeBadge = document.getElementById('parent-fee-badge');
+      if (feeBadge && appState.residentRentPaid) {
+        feeBadge.textContent = 'Paid ✓';
+        feeBadge.className = 'px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold';
+      }
+
+      document.getElementById('parent-leave-count').textContent = `${appState.leaves.length} Record${appState.leaves.length !== 1 ? 's' : ''}`;
+      document.getElementById('parent-leaves-list').innerHTML = appState.leaves.map(l => `
+        <div class="p-4 rounded-2xl bg-peach-secondary border border-peach-border flex items-center justify-between gap-3">
+          <div>
+            <div class="text-xs font-extrabold text-peach-dark">${l.from} → ${l.to}</div>
+            <div class="text-xs text-peach-muted mt-0.5">${l.reason}</div>
+          </div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold ${l.status === 'Approved' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${l.status}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('parent-notices-list').innerHTML = appState.notices.map(n => `
+        <div class="p-4 rounded-2xl bg-peach-secondary border border-peach-border">
+          <div class="text-xs font-extrabold text-peach-dark">${n.title} <span class="text-peach-accent">(${n.date})</span></div>
+          <p class="text-xs text-peach-muted mt-1">${n.body}</p>
+        </div>
+      `).join('');
+    }
+
+    // =========================================================================
+    // 10. HOSTEL ADMIN DASHBOARD & REAL-TIME CRUD
+    // =========================================================================
+    function switchAdminTab(tab) {
+      ['bookings', 'rooms', 'complaints', 'notices'].forEach(t => {
+        document.getElementById(`admin-panel-${t}`).classList.toggle('hidden', t !== tab);
+        const btn = document.getElementById(`admtab-${t}`);
+        btn.className = t === tab
+          ? 'adm-tab px-4 py-2 rounded-xl bg-peach-dark text-white text-xs font-bold'
+          : 'adm-tab px-4 py-2 rounded-xl bg-peach-secondary text-peach-dark text-xs font-bold';
+      });
+    }
+
+    function renderAdminDashboard() {
+      // KPIs
+      const totalBeds = appState.rooms.reduce((acc, r) => acc + r.totalBeds, 0);
+      const openBeds = appState.rooms.reduce((acc, r) => acc + r.availableBeds, 0);
+      const occupiedBeds = totalBeds - openBeds;
+      const occPct = totalBeds > 0 ? Math.round((occupiedBeds / totalBeds) * 100) : 0;
+      const monthlyRev = appState.rooms.reduce((acc, r) => acc + ((r.totalBeds - r.availableBeds) * r.rent), 0);
+
+      document.getElementById('admin-kpi-occupancy').textContent = `${occPct}%`;
+      document.getElementById('admin-kpi-beds-sub').textContent = `${openBeds} of ${totalBeds} beds open`;
+      document.getElementById('admin-kpi-revenue').textContent = '₹' + monthlyRev.toLocaleString('en-IN');
+      document.getElementById('admin-kpi-bookings').textContent = appState.bookings.filter(b => b.status === 'Pending').length;
+      document.getElementById('admin-kpi-complaints').textContent = appState.complaints.filter(c => c.status !== 'Resolved').length;
+
+      // Bookings list
+      const bookList = document.getElementById('admin-bookings-list');
+      bookList.innerHTML = appState.bookings.length === 0
+        ? `<div class="p-6 text-center text-xs text-peach-muted bg-peach-secondary rounded-2xl">No booking requests found.</div>`
+        : appState.bookings.map(b => `
+          <div class="p-4 rounded-2xl bg-peach-secondary/70 border border-peach-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-extrabold text-peach-dark">${b.id}</span>
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold ${b.status === 'Confirmed' ? 'bg-emerald-100 text-emerald-800' : b.status === 'Cancelled' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'}">${b.status}</span>
+              </div>
+              <div class="text-sm font-bold text-peach-dark">${b.applicantName} (${b.org}) → ${b.roomName} [${b.roomId}]</div>
+              <div class="text-xs text-peach-muted">Phone: ${b.phone} • Check-in: ${b.checkIn} • Total: ₹${b.totalAmount.toLocaleString('en-IN')}</div>
+            </div>
+            ${b.status === 'Pending' ? `
+              <div class="flex items-center gap-2 shrink-0">
+                <button onclick="adminHandleBooking('${b.id}', 'Confirmed')" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs">Approve & Assign Bed</button>
+                <button onclick="adminHandleBooking('${b.id}', 'Cancelled')" class="px-3 py-2 rounded-xl bg-red-100 hover:bg-red-200 text-red-800 font-bold text-xs">Reject</button>
+              </div>
+            ` : ''}
+          </div>
+        `).join('');
+
+      // Room CRUD Table
+      document.getElementById('admin-rooms-tbody').innerHTML = appState.rooms.map(r => `
+        <tr>
+          <td class="py-3 px-3 font-bold text-peach-dark">${r.id} • ${r.name}</td>
+          <td class="py-3 px-3">${r.category} (${r.ac})</td>
+          <td class="py-3 px-3">${r.location}</td>
+          <td class="py-3 px-3 font-bold">₹${r.rent.toLocaleString('en-IN')}</td>
+          <td class="py-3 px-3">
+            <div class="inline-flex items-center gap-2 bg-peach-secondary px-2.5 py-1 rounded-lg">
+              <button onclick="adjustRoomBeds('${r.id}', -1)" class="w-5 h-5 rounded bg-white font-bold text-peach-dark">-</button>
+              <span class="font-extrabold">${r.availableBeds} / ${r.totalBeds}</span>
+              <button onclick="adjustRoomBeds('${r.id}', 1)" class="w-5 h-5 rounded bg-white font-bold text-peach-dark">+</button>
+            </div>
+          </td>
+          <td class="py-3 px-3 text-right">
+            <button onclick="deleteRoom('${r.id}')" class="text-red-600 hover:underline font-bold">Delete</button>
+          </td>
+        </tr>
+      `).join('');
+
+      // Complaints Management
+      document.getElementById('admin-complaints-list').innerHTML = appState.complaints.map(c => `
+        <div class="p-4 rounded-2xl bg-peach-secondary/70 border border-peach-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="text-xs font-extrabold text-peach-accent">${c.id} • ${c.category} (${c.room} - ${c.name})</div>
+            <div class="text-xs text-peach-dark mt-1">${c.desc}</div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <select onchange="updateComplaintStatus('${c.id}', this.value)" class="rounded-xl bg-white border border-peach-border px-3 py-1.5 text-xs font-bold">
+              <option value="Pending" ${c.status === 'Pending' ? 'selected' : ''}>Pending</option>
+              <option value="In Progress" ${c.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+              <option value="Resolved" ${c.status === 'Resolved' ? 'selected' : ''}>Resolved</option>
+            </select>
+          </div>
+        </div>
+      `).join('');
+
+      // Admin Leaves Approval
+      document.getElementById('admin-leaves-list').innerHTML = appState.leaves.map(l => `
+        <div class="p-3.5 rounded-2xl bg-peach-secondary border border-peach-border flex items-center justify-between gap-3 text-xs">
+          <div>
+            <div class="font-bold text-peach-dark">${l.resident} (${l.from} to ${l.to})</div>
+            <div class="text-peach-muted">${l.reason}</div>
+          </div>
+          ${l.status !== 'Approved'
+            ? `<button onclick="approveLeave('${l.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-bold">Approve</button>`
+            : `<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold">Approved</span>`
+          }
+        </div>
+      `).join('');
+    }
+
+    function adminHandleBooking(bookingId, newStatus) {
+      const booking = appState.bookings.find(b => b.id === bookingId);
+      if (!booking) return;
+
+      if (newStatus === 'Confirmed') {
+        const room = appState.rooms.find(r => r.id === booking.roomId);
+        if (!room || room.availableBeds <= 0) {
+          showToast('No Beds Available', `Room ${booking.roomId} is already full.`, 'danger');
+          return;
+        }
+        room.availableBeds -= 1;
+        room.occupants.push(booking.applicantName);
+      }
+
+      booking.status = newStatus;
+      saveState();
+      showToast(
+        `Booking ${newStatus}`,
+        newStatus === 'Confirmed'
+          ? `${booking.applicantName} assigned to ${booking.roomId}. Live bed availability updated!`
+          : `Booking ${booking.id} marked as cancelled.`
+      );
+    }
+
+    function openAddRoomModal() {
+      document.getElementById('modal-add-room').classList.remove('hidden');
+    }
+
+    function submitNewRoom(e) {
+      e.preventDefault();
+      const total = Number(document.getElementById('new-room-total').value);
+      const newRoom = {
+        id: document.getElementById('new-room-code').value.trim().toUpperCase(),
+        name: `${document.getElementById('new-room-cat').value} Suite`,
+        category: document.getElementById('new-room-cat').value,
+        location: document.getElementById('new-room-loc').value,
+        rent: Number(document.getElementById('new-room-rent').value),
+        totalBeds: total,
+        availableBeds: total,
+        size: total === 1 ? '170 sq.ft' : '235 sq.ft',
+        ac: document.getElementById('new-room-ac').value,
+        attachedBath: true,
+        balcony: true,
+        gender: document.getElementById('new-room-gender').value,
+        image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=900&q=80',
+        occupants: []
+      };
+
+      appState.rooms.unshift(newRoom);
+      e.target.reset();
+      closeModal('modal-add-room');
+      saveState();
+      showToast('Room Added to Catalog', `${newRoom.id} is now live on the Public Website.`);
+    }
+
+    function adjustRoomBeds(roomId, delta) {
+      const room = appState.rooms.find(r => r.id === roomId);
+      if (!room) return;
+      const next = room.availableBeds + delta;
+      if (next >= 0 && next <= room.totalBeds) {
+        room.availableBeds = next;
+        saveState();
+      }
+    }
+
+    function deleteRoom(roomId) {
+      appState.rooms = appState.rooms.filter(r => r.id !== roomId);
+      saveState();
+      showToast('Room Removed', `Room ${roomId} deleted from inventory.`, 'warning');
+    }
+
+    function updateComplaintStatus(ticketId, status) {
+      const t = appState.complaints.find(item => item.id === ticketId);
+      if (t) {
+        t.status = status;
+        saveState();
+        showToast('Ticket Status Updated', `${ticketId} is now marked as ${status}.`);
+      }
+    }
+
+    function publishAdminNotice(e) {
+      e.preventDefault();
+      appState.notices.unshift({
+        id: 'N-' + Date.now(),
+        title: document.getElementById('adm-notice-title').value.trim(),
+        body: document.getElementById('adm-notice-body').value.trim(),
+        date: 'Today',
+        tag: 'Admin Broadcast'
+      });
+      e.target.reset();
+      saveState();
+      showToast('Announcement Published', 'Live now on Resident Dashboard and Parent Connect.');
+    }
+
+    function approveLeave(leaveId) {
+      const l = appState.leaves.find(item => item.id === leaveId);
+      if (l) {
+        l.status = 'Approved';
+        saveState();
+        showToast('Leave Approved', `Approved leave for ${l.resident}.`);
+      }
+    }
+
+    // =========================================================================
+    // 11. GLOBAL SYNC & INITIALIZATION
+    // =========================================================================
+    function syncAllViews() {
+      // Update live available beds counter on Hero
+      const totalOpenBeds = appState.rooms.reduce((sum, r) => sum + r.availableBeds, 0);
+      const bedsEl = document.getElementById('stat-available-beds');
+      if (bedsEl) bedsEl.textContent = totalOpenBeds;
+
+      const bookBadge = document.getElementById('booking-count-badge');
+      if (bookBadge) bookBadge.textContent = appState.bookings.length;
+
+      renderRooms();
+      renderFacilities();
+      renderFoodSection();
+      renderRules();
+      renderComplaints();
+      renderResidentDashboard();
+      renderParentPortal();
+      renderAdminDashboard();
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      syncAllViews();
+    });
+  </script>
+</body>
+</html>
